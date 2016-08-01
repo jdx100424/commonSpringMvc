@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>commonSpringMvc</groupId>
+    <artifactId>commonSpringMvc</artifactId>
+    <version>0.0.2</version>
+  </parent>
+  <groupId>commonSpringMvc-webapp</groupId>
+  <artifactId>commonSpringMvc-webapp</artifactId>
+  <packaging>war</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>commonSpringMvc-service-impl</groupId>
+      <artifactId>commonSpringMvc-service-impl</artifactId>
+      <version>0.0.2</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>commonSpringMvc-util</groupId>
+      <artifactId>commonSpringMvc-util</artifactId>
+      <version>0.0.2</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-cypher-compiler-2.1</artifactId>
+      <version>2.1.5</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Maven Compiler: Compiles the project -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven.source.version}</version>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/java</directory>
+                  <includes>
+                    <include>**/*.xml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>${maven.jetty.version}</version>
+        
+        <configuration>
+          <contextPath>/</contextPath>  
+          <scanIntervalSeconds>3</scanIntervalSeconds>
+          <connectors>
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              <port>9191</port>
+            </connector>
+          </connectors>
+        </configuration>        
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven.war.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
