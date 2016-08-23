@@ -48,6 +48,36 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "", method = { RequestMethod.POST, RequestMethod.GET })
 	public String index(HttpServletRequest request, Model model, String src) {
 		LOGGER.info("进入登录页首页");
+List<String> jdxList = new ArrayList<String>();
+        jdxList.add("1");
+        jdxList.add("2");
+        jdxList.add("3");
+        jdxList.add("4");
+
+        Map<String, Object> jdxMap = new HashMap<String, Object>();
+        jdxMap.put("1", "111");
+        jdxMap.put("2", "222");
+        jdxMap.put("3", "333");
+        jdxMap.put("4", "444");
+
+        model.addAttribute("jdx", "jiangdaxian");
+        model.addAttribute("jdxList", jdxList);
+        model.addAttribute("jdxMap", jdxMap);
+
+        List<Account> jdxListObject = new ArrayList<Account>();
+        jdxListObject.add(new Account());
+        jdxListObject.add(new Account());
+        jdxListObject.add(new Account());
+        jdxListObject.add(new Account());
+
+        Map<String, Account> jdxMapObject = new HashMap<String, Account>();
+        jdxMapObject.put("1", new Account());
+        jdxMapObject.put("2", new Account());
+        jdxMapObject.put("3", new Account());
+        jdxMapObject.put("4", new Account());
+
+        model.addAttribute("jdxListObject", jdxListObject);
+        model.addAttribute("jdxMapObject", jdxMapObject);		
 		return "/login/index";
 	}
 
