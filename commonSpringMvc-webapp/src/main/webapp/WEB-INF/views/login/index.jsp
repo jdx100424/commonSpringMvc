@@ -1,4 +1,5 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +35,32 @@
     <div class="login">
       <h1>Ethos Login Form</h1>
       <div class="inset">
+      <!-- 
+<table>
+	<tr>
+		<c:forEach items="${jdxList}" var="item">
+			<td>${item},</td>
+		</c:forEach>
+	</tr>
+	<tr>
+		<c:forEach items="${jdxMap}" var="item">
+			<td>${item.value},</td>
+		</c:forEach>
+	</tr>
+	<tr>
+		<c:forEach items="${jdxListObject}" var="item">
+			<td>${item.userName},</td>
+			<td>${item.password},</td>
+		</c:forEach>
+	</tr>
+	<tr>
+		<c:forEach items="${jdxMapObject}" var="item">
+			<td>${item.value.userName},</td>
+			<td>${item.value.password},</td>
+			<td>${item.key},</td>
+		</c:forEach>
+	</tr>
+</table> -->
         <!--start-main-->
         <form id="loginForm" method="post"
           style="padding-left: 10px; padding-top: 10px">
