@@ -1,5 +1,10 @@
 package com.maoshen.login.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,7 +53,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "", method = { RequestMethod.POST, RequestMethod.GET })
 	public String index(HttpServletRequest request, Model model, String src) {
 		LOGGER.info("进入登录页首页");
-List<String> jdxList = new ArrayList<String>();
+		List<String> jdxList = new ArrayList<String>();
         jdxList.add("1");
         jdxList.add("2");
         jdxList.add("3");
