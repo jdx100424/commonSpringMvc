@@ -31,12 +31,35 @@
 
 	<context:component-scan base-package="com.maoshen" />
 	<context:annotation-config />
-
+	<!--  
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://192.168.0.3:3306/common_spring_mvc" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/jdxTest" />
 		<property name="username" value="root" />
 		<property name="password" value="jdxjdx100424" />
+	</bean>-->
+
+	<bean id="masterDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jdxTest" />
+		<property name="username" value="root" />
+		<property name="password" value="jdxjdx100424" />
+	</bean>
+
+	<bean id="slaveDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jdxTest" />
+		<property name="username" value="root" />
+		<property name="password" value="jdxjdx100424" />
+	</bean>
+	<bean id="dataSource" class="com.maoshen.db.ReplicationDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="master" value-ref="masterDataSource" />
+				<entry key="slave" value-ref="slaveDataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="masterDataSource" />
 	</bean>
 
 
@@ -61,6 +84,14 @@
 			<aop:before pointcut-ref="mapperTx" method="before" />
 		</aop:aspect>
 	</aop:config>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+
 
 	<!-- jedis pool配置 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -90,26 +121,6 @@
 		</property>
 		<property name="hashValueSerializer">
 			<bean class="com.maoshen.redis.serializer.ObjectRedisSerializer" />
-		</property>
-	</bean>
-
-	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
-		<property name="config">
-			<bean class="com.google.code.kaptcha.util.Config">
-				<constructor-arg>
-					<props>
-						<prop key="kaptcha.border">no</prop>
-						<prop key="kaptcha.border.color">105,179,90</prop>
-						<prop key="kaptcha.textproducer.font.color">black</prop>
-						<prop key="kaptcha.image.width">250</prop>
-						<prop key="kaptcha.textproducer.font.size">60</prop>
-						<prop key="kaptcha.image.height">90</prop>
-						<prop key="kaptcha.session.key">code</prop>
-						<prop key="kaptcha.textproducer.char.length">5</prop>
-						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
-					</props>
-				</constructor-arg>
-			</bean>
 		</property>
 	</bean>
 </beans>

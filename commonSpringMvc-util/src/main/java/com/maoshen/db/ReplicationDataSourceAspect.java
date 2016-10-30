@@ -22,7 +22,7 @@ public class ReplicationDataSourceAspect {
             if (null != m && m.isAnnotationPresent(DataSource.class)) {
                 DataSource source = m.getAnnotation(DataSource.class);
                 ReplicationDataSourceHolder.putDataSource(source.value());
-                System.out.println("==============" + source.value() + "=============");
+                LOGGER.info("==============" + source.value() + "=============");
             }
         } catch (NoSuchMethodException e) {
             LOGGER.error(e.getMessage(), e);
