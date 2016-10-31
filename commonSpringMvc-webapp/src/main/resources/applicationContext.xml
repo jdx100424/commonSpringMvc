@@ -112,15 +112,9 @@
 			<bean
 				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
 		</property>
-		<property name="valueSerializer">
-			<bean class="com.maoshen.redis.serializer.ObjectRedisSerializer" />
-		</property>
 		<property name="hashKeySerializer">
 			<bean
 				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-		</property>
-		<property name="hashValueSerializer">
-			<bean class="com.maoshen.redis.serializer.ObjectRedisSerializer" />
 		</property>
 	</bean>
 </beans>
