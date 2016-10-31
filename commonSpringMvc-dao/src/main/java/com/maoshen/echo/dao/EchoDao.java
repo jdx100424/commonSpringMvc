@@ -8,4 +8,6 @@ import com.maoshen.echo.domain.Echo;
 @Repository
 public interface EchoDao {
     public Echo selectById(@Param("id")Long id);
+    
+    public void insert(Echo echo);
 }

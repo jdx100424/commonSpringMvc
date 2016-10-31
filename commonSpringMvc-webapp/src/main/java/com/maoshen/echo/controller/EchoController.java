@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,13 +51,27 @@ public class EchoController extends BaseController {
 	public ResponseResult<Map<String,Object>> echo(HttpServletRequest request, Model model, String src){
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		try{
-			boolean result = echoService.checkEchoIsExist(1L);
-			resultMap.put("echoHasResult",result);
+			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
+			boolean resultSelectTwo = echoService.checkEchoIsExist(2L);
+			Map<String,Object> dataResult = new HashMap<String,Object>();
+			dataResult.put("1", resultSelectOne);
+			dataResult.put("2", resultSelectTwo);
+			resultMap.put("echoHasResultSelect",dataResult);
 		}catch(Exception e){
-			LOGGER.error("echo check error:",e);
-			resultMap.put("echoHasResult",e.getMessage());
+			LOGGER.error("echo select error:",e);
+			resultMap.put("echoHasResultSelect",e.getMessage());
 		}
-	
+		
+		try{
+			Echo echo = new Echo();
+			echo.setName(UUID.randomUUID().toString());
+			echoService.insert(echo);
+			resultMap.put("echoHasResultInsert",true);
+		}catch(Exception e){
+			LOGGER.error("echo insert error:",e);
+			resultMap.put("echoHasResultInsert",e.getMessage());
+		}
+		
 		return new ResponseResult<Map<String,Object>>(resultMap);
 	}
 	

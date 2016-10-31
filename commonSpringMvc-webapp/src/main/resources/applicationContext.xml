@@ -41,14 +41,14 @@
 
 	<bean id="masterDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/jdxTest" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jdxTestMaster" />
 		<property name="username" value="root" />
 		<property name="password" value="jdxjdx100424" />
 	</bean>
 
 	<bean id="slaveDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/jdxTest" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jdxTestSlave" />
 		<property name="username" value="root" />
 		<property name="password" value="jdxjdx100424" />
 	</bean>

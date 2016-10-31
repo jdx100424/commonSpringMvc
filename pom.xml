@@ -19,7 +19,7 @@
 	<properties>
 		<standard.version>1.1.2</standard.version>
 		<jstl.version>1.2</jstl.version>
-		
+
 		<logback.version>1.0.13</logback.version>
 		<slf4j-api.version>1.7.7</slf4j-api.version>
 		<mercury.version>1.1.2</mercury.version>
@@ -75,26 +75,34 @@
 		<jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
+		<persistence-api.version>1.0</persistence-api.version>
 	</properties>
 
 
 
 	<dependencies>
-		<dependency>  
-		    <groupId>org.slf4j</groupId>  
-		    <artifactId>slf4j-log4j12</artifactId>  
-		    <version>${slf4j-log4j12.version}</version>  
-		</dependency>  	
+		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
 		<dependency>
-		    <groupId>taglibs</groupId>
-		    <artifactId>standard</artifactId>
-		    <version>${standard.version}</version>
-		</dependency>	
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${persistence-api.version}</version>
+		</dependency>
+		
 		<dependency>
-		    <groupId>jstl</groupId>
-		    <artifactId>jstl</artifactId>
-		    <version>${jstl.version}</version>
-		</dependency>		
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j-log4j12.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>${standard.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>
