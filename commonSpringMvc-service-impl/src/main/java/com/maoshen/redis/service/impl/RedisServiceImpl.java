@@ -5,7 +5,7 @@
  * @Date 2015年7月29日 上午10:06:31
  * @Version V1.0   
  */
-package com.maoshen.component.redis.service.impl;
+package com.maoshen.redis.service.impl;
 
 import java.util.concurrent.TimeUnit;
 

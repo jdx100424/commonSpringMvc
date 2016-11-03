@@ -1,10 +1,12 @@
 package com.maoshen.echo.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.maoshen.base.BaseController;
+import com.maoshen.component.redis.service.RedisService;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
 import com.maoshen.response.ResponseResult;
@@ -39,6 +42,10 @@ public class EchoController extends BaseController {
 	@Qualifier("echoServiceImpl")
 	private EchoService echoService;
 
+	@Autowired
+	@Qualifier("redisServiceImpl")
+	private RedisService redisService;
+
 	/**
 	 * 
 	 * @param request
@@ -48,33 +55,42 @@ public class EchoController extends BaseController {
 	 */
 	@RequestMapping(value = "check", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseResult<Map<String,Object>> echo(HttpServletRequest request, Model model, String src){
-		Map<String,Object> resultMap = new HashMap<String,Object>();
-		try{
+	public ResponseResult<Map<String, Object>> echo(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
 			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
 			boolean resultSelectTwo = echoService.checkEchoIsExist(2L);
-			Map<String,Object> dataResult = new HashMap<String,Object>();
+			Map<String, Object> dataResult = new HashMap<String, Object>();
 			dataResult.put("1", resultSelectOne);
 			dataResult.put("2", resultSelectTwo);
-			resultMap.put("echoHasResultSelect",dataResult);
-		}catch(Exception e){
-			LOGGER.error("echo select error:",e);
-			resultMap.put("echoHasResultSelect",e.getMessage());
+			resultMap.put("echoHasResultSelect", dataResult);
+		} catch (Exception e) {
+			LOGGER.error("echo select error:", e);
+			resultMap.put("echoHasResultSelect", e.getMessage());
 		}
-		
-		try{
+
+		try {
 			Echo echo = new Echo();
 			echo.setName(UUID.randomUUID().toString());
 			echoService.insert(echo);
-			resultMap.put("echoHasResultInsert",true);
-		}catch(Exception e){
-			LOGGER.error("echo insert error:",e);
-			resultMap.put("echoHasResultInsert",e.getMessage());
+			resultMap.put("echoHasResultInsert", true);
+		} catch (Exception e) {
+			LOGGER.error("echo insert error:", e);
+			resultMap.put("echoHasResultInsert", e.getMessage());
 		}
 		
-		return new ResponseResult<Map<String,Object>>(resultMap);
+		try{
+			redisService.insertByValue("test", new Date().getTime(), 10, TimeUnit.SECONDS);
+			Object result = redisService.getByValue("test");
+			resultMap.put("redisHasResult", result);
+		} catch (Exception e) {
+			LOGGER.error("redisService error:", e);
+			resultMap.put("redisHasResult", e.getMessage());
+		}
+
+		return new ResponseResult<Map<String, Object>>(resultMap);
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 登录首页入口
@@ -89,35 +105,35 @@ public class EchoController extends BaseController {
 	public String index(HttpServletRequest request, Model model, String src) {
 		LOGGER.info("进入首页");
 		List<String> jdxList = new ArrayList<String>();
-        jdxList.add("1");
-        jdxList.add("2");
-        jdxList.add("3");
-        jdxList.add("4");
+		jdxList.add("1");
+		jdxList.add("2");
+		jdxList.add("3");
+		jdxList.add("4");
 
-        Map<String, Object> jdxMap = new HashMap<String, Object>();
-        jdxMap.put("1", "111");
-        jdxMap.put("2", "222");
-        jdxMap.put("3", "333");
-        jdxMap.put("4", "444");
+		Map<String, Object> jdxMap = new HashMap<String, Object>();
+		jdxMap.put("1", "111");
+		jdxMap.put("2", "222");
+		jdxMap.put("3", "333");
+		jdxMap.put("4", "444");
 
-        model.addAttribute("jdx", "jiangdaxian");
-        model.addAttribute("jdxList", jdxList);
-        model.addAttribute("jdxMap", jdxMap);
+		model.addAttribute("jdx", "jiangdaxian");
+		model.addAttribute("jdxList", jdxList);
+		model.addAttribute("jdxMap", jdxMap);
 
-        List<Echo> jdxListObject = new ArrayList<Echo>();
-        jdxListObject.add(new Echo());
-        jdxListObject.add(new Echo());
-        jdxListObject.add(new Echo());
-        jdxListObject.add(new Echo());
+		List<Echo> jdxListObject = new ArrayList<Echo>();
+		jdxListObject.add(new Echo());
+		jdxListObject.add(new Echo());
+		jdxListObject.add(new Echo());
+		jdxListObject.add(new Echo());
 
-        Map<String, Echo> jdxMapObject = new HashMap<String, Echo>();
-        jdxMapObject.put("1", new Echo());
-        jdxMapObject.put("2", new Echo());
-        jdxMapObject.put("3", new Echo());
-        jdxMapObject.put("4", new Echo());
+		Map<String, Echo> jdxMapObject = new HashMap<String, Echo>();
+		jdxMapObject.put("1", new Echo());
+		jdxMapObject.put("2", new Echo());
+		jdxMapObject.put("3", new Echo());
+		jdxMapObject.put("4", new Echo());
 
-        model.addAttribute("jdxListObject", jdxListObject);
-        model.addAttribute("jdxMapObject", jdxMapObject);		
+		model.addAttribute("jdxListObject", jdxListObject);
+		model.addAttribute("jdxMapObject", jdxMapObject);
 		return "/echo/index";
 	}
 }
