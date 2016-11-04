@@ -1,6 +1,6 @@
 package com.maoshen.echo.service;
 
-import com.maoshen.db.DataSource;
+import com.maoshen.component.db.DataSource;
 import com.maoshen.echo.domain.Echo;
 
 public interface EchoService {

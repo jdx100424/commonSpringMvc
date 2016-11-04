@@ -22,12 +22,12 @@
       <version>0.0.2</version>
       <type>jar</type>
     </dependency>
-    <!--  
+    
     <dependency>
       <groupId>org.neo4j</groupId>
       <artifactId>neo4j-cypher-compiler-2.1</artifactId>
       <version>2.1.5</version>
-    </dependency>-->
+    </dependency>
   </dependencies>
 
   <build>
@@ -76,15 +76,16 @@
         <artifactId>maven-jetty-plugin</artifactId>
         <version>${maven.jetty.version}</version>
         
-        <configuration>
-          <contextPath>/</contextPath>  
-          <scanIntervalSeconds>3</scanIntervalSeconds>
-          <connectors>
-            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-              <port>9191</port>
-            </connector>
-          </connectors>
-        </configuration>        
+        <configuration>  
+        	<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>  
+        	<scanIntervalSeconds>3</scanIntervalSeconds>  
+            <contextPath>/</contextPath>  
+            <connectors>  
+                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">  
+                    <port>8088</port>  
+                </connector>  
+            </connectors>  
+        </configuration>     
       </plugin>
 
       <plugin>
