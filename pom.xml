@@ -76,11 +76,17 @@
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
 		<persistence-api.version>1.0</persistence-api.version>
+		<json-alibaba>1.2.7</json-alibaba>
 	</properties>
 
 
 
 	<dependencies>
+		<dependency>
+   			<groupId>com.alibaba</groupId>
+    		<artifactId>fastjson</artifactId>
+    		<version>${json-alibaba}</version>
+		</dependency>
 		<dependency>
     		<groupId>component_common</groupId>
     		<artifactId>component_common</artifactId>

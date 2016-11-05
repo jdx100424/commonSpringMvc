@@ -7,6 +7,34 @@
  */
 package com.maoshen.base;
 
-public class BaseController {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.maoshen.component.util.JsonpUtil;
+import com.maoshen.errorcode.ErrorCode;
+import com.maoshen.response.ResponseResult;
+
+public abstract class BaseController {
+	private static final Logger LOGGER = Logger.getLogger(BaseController.class);
+
+	@ExceptionHandler
+	@ResponseBody
+	protected void handleException(HttpServletRequest request, 
+			HttpServletResponse response, Throwable thr){
+		ResponseResult<Object> result = new ResponseResult<Object>();
+		result.setCode(ErrorCode.SERVICE_EXCEPTION.getCode());
+		result.setMessage(ErrorCode.SERVICE_EXCEPTION.getMsg());
+		
+		LOGGER.error("baseBontroller_base common error " + thr.getMessage(), thr);
+		response.setHeader("Content-type", "application/javascript;charset=UTF-8");
+		try {
+			response.getWriter().write(JsonpUtil.restJsonp(request.getParameter("callback"), result));
+		} catch (Exception e) {
+			LOGGER.error("baseBontroller_base response error " + thr.getMessage(), thr);
+		}
+	}
 }

@@ -94,7 +94,7 @@ public class EchoController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/index", method = { RequestMethod.POST, RequestMethod.GET })
-	public String index(HttpServletRequest request, Model model, String src) {
+	public String index(HttpServletRequest request, Model model) {
 		LOGGER.info("进入首页");
 		List<String> jdxList = new ArrayList<String>();
 		jdxList.add("1");
@@ -127,5 +127,17 @@ public class EchoController extends BaseController {
 		model.addAttribute("jdxListObject", jdxListObject);
 		model.addAttribute("jdxMapObject", jdxMapObject);
 		return "/echo/index";
+	}
+	
+	/**
+	 * 测试抛异常是否在公共异常接收
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/testException", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public String testException(HttpServletRequest request, Model model) throws Exception{
+		throw new Exception("testException");
 	}
 }

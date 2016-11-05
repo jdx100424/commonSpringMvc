@@ -8,11 +8,8 @@
 package com.maoshen.errorcode;
 
 public enum ErrorCode {
-    LOGIN_USERNAME_PASSWORD_CHECK_FAIL(10001, "用户名或密码错误"),
-    LOGIN_USERNAME_PASSWORD_FORMAT_FAIL(10002, "请填写正确的用户名或密码格式"),
-    LOGIN_EXIST(10003, "已登录"),
-    LOGIN_KAPTCHA_CHECK_FAIL(10004, "验证码不正确"),
-    LOGIN_KAPTCHA_FORMAT_FAIL(10005, "请填写正确的验证码格式");
+	SERVICE_EXCEPTION(500,"系统发生错误");
+	
     private int    code; //错误代码
 
     private String msg; //错误消息
