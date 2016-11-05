@@ -6,10 +6,17 @@ import org.apache.log4j.Logger;
 
 import com.maoshen.component.task.BaseRedisTask;
 
+/**
+ * 健康检查的定时器负载均衡实例，每次只运行一台
+ * @author jdx
+ *
+ */
 public class EchoTask extends BaseRedisTask{
 	private static final Logger LOGGER = Logger.getLogger(EchoTask.class);
 	
 	private static final String NAME = "ECHO_TASK";
+	
+	private static final Long EXPIRE_TIME = 300L;
 
 	@Override
 	public String getName() {
@@ -25,6 +32,11 @@ public class EchoTask extends BaseRedisTask{
 			LOGGER.error(this.getClass() + "_" + this.getName() + " run interruptedException", e);
 		}
 		LOGGER.warn(Thread.currentThread().getName() + "_" + "echo task warning test end 在负载均衡条件下，是否只有一台服务器运行_" + new Date());
+	}
+
+	@Override
+	public Long getExpireTime() {
+		return EXPIRE_TIME;
 	}
 
 }

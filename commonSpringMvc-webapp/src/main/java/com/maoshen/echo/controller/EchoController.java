@@ -1,12 +1,10 @@
 package com.maoshen.echo.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.maoshen.base.BaseController;
-import com.maoshen.component.redis.service.RedisService;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
 import com.maoshen.response.ResponseResult;
@@ -41,10 +38,6 @@ public class EchoController extends BaseController {
 	@Autowired
 	@Qualifier("echoServiceImpl")
 	private EchoService echoService;
-
-	@Autowired
-	@Qualifier("redisServiceImpl")
-	private RedisService redisService;
 
 	/**
 	 * 
@@ -80,8 +73,7 @@ public class EchoController extends BaseController {
 		}
 		
 		try{
-			redisService.insertByValue("test", new Date().getTime(), 10, TimeUnit.SECONDS);
-			Object result = redisService.getByValue("test");
+			boolean result = echoService.checkRedis();
 			resultMap.put("redisHasResult", result);
 		} catch (Exception e) {
 			LOGGER.error("redisService error:", e);

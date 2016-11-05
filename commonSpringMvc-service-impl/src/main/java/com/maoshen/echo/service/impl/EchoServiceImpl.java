@@ -1,10 +1,14 @@
 package com.maoshen.echo.service.impl;
 
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maoshen.component.redis.RedisService;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
 
@@ -12,6 +16,9 @@ import com.maoshen.echo.service.EchoService;
 public class EchoServiceImpl implements EchoService {
 	@Autowired
 	private com.maoshen.echo.dao.EchoDao echoDao;
+	
+	@Autowired
+	private RedisService redisService;
 	
 	private static final Logger LOGGER = Logger.getLogger(EchoServiceImpl.class);
 
@@ -33,6 +40,24 @@ public class EchoServiceImpl implements EchoService {
 		}catch(Exception e){
 			LOGGER.error("EchoServiceImpl_insert fail",e);
 			throw new Exception(e.getMessage());
+		}
+	}
+
+	@Override
+	public boolean checkRedis() throws Exception{
+		try{
+			String compareStr = "true";
+			String randomKey = UUID.randomUUID().toString();
+			redisService.insertByValue(randomKey, compareStr, 10, TimeUnit.SECONDS);
+			Object result = redisService.getByValue(randomKey);
+			if(compareStr.equals(result)){
+				return true;
+			}else{
+				return false;
+			}
+		}catch(Exception e){
+			LOGGER.error("EchoServiceImpl_checkRedis fail",e);
+			throw e;
 		}
 	}
 

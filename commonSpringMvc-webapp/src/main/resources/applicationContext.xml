@@ -121,6 +121,10 @@
 		</property>
 	</bean>
 	
+	<bean id="redisService" class="com.maoshen.component.redis.RedisService">
+		<property name="jedisTemplate" ref="jedisTemplate"/>
+	</bean>
+	
 	<!-- task -->
 	<task:annotation-driven /> <!-- 定时器开关-->  
     <bean id="echoTask" class="com.maoshen.echo.task.EchoTask"></bean>  
