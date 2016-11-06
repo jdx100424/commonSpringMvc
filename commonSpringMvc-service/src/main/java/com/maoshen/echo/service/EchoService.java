@@ -5,6 +5,11 @@ import com.maoshen.echo.domain.Echo;
 
 public interface EchoService {
 	/**
+	 * dubbo健康检测
+	 * @return
+	 */
+	public boolean checkDubbo(Long id);
+	/**
 	 * 从库健康检测查询
 	 * @param id
 	 * @return

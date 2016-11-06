@@ -5,11 +5,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maoshen.component.redis.RedisService;
 import com.maoshen.echo.domain.Echo;
+import com.maoshen.echo.dubbo.EchoDubbo;
 import com.maoshen.echo.service.EchoService;
 
 @Service("echoServiceImpl")
@@ -19,6 +21,10 @@ public class EchoServiceImpl implements EchoService {
 	
 	@Autowired
 	private RedisService redisService;
+	
+	@Autowired
+	@Qualifier("echoDubboImpl")
+	private EchoDubbo echoDubbo;
 	
 	private static final Logger LOGGER = Logger.getLogger(EchoServiceImpl.class);
 
@@ -59,6 +65,11 @@ public class EchoServiceImpl implements EchoService {
 			LOGGER.error("EchoServiceImpl_checkRedis fail",e);
 			throw e;
 		}
+	}
+
+	@Override
+	public boolean checkDubbo(Long id) {
+		return echoDubbo.checkEchoIsExistByDubbo(id);
 	}
 
 }

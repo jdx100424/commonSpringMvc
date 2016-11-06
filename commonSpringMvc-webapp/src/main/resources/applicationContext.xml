@@ -134,6 +134,9 @@
         -->  
         <task:scheduled ref="echoTask" method="doJob" cron="0 0/1 * * * ?" />  
     </task:scheduled-tasks>  
+    
+    <!-- dubbo -->
+	<import resource="dubboContext.xml" />
 </beans>
 
 

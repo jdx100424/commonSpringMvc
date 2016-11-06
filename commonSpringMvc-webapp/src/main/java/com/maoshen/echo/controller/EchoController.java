@@ -56,9 +56,11 @@ public class EchoController extends BaseController {
 		try {
 			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
 			boolean resultSelectTwo = echoService.checkEchoIsExist(2L);
+			boolean resultSelectDubbo = echoService.checkDubbo(2L);
 			Map<String, Object> dataResult = new HashMap<String, Object>();
 			dataResult.put("1", resultSelectOne);
 			dataResult.put("2", resultSelectTwo);
+			dataResult.put("3", resultSelectDubbo);
 			resultMap.put("echoHasResultSelect", dataResult);
 		} catch (Exception e) {
 			LOGGER.error("echo select error:", e);
