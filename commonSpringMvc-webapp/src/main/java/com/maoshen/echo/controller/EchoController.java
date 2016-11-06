@@ -13,13 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.maoshen.base.BaseController;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
+import com.maoshen.echo.vo.EchoVO;
 import com.maoshen.response.ResponseResult;
 
 /**
@@ -139,5 +142,20 @@ public class EchoController extends BaseController {
 	@ResponseBody
 	public String testException(HttpServletRequest request, Model model) throws Exception{
 		throw new Exception("testException");
+	}
+	
+	/**
+	 * 测试HTTP传JSON个格式的
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/testReceiveJson", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResult<EchoVO> testReceiveJson(HttpServletRequest request, Model model,@RequestBody EchoVO echoVO) throws Exception{
+		LOGGER.info("testReceiveJson result value:" +  JSONObject.toJSONString(echoVO));
+		echoVO.setId(echoVO.getId()+ 5);
+		echoVO.setName(echoVO.getName() + "echo");
+		return new ResponseResult<EchoVO>(echoVO);
 	}
 }
