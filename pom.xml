@@ -39,7 +39,7 @@
 		<testng.version>6.8.5</testng.version>
 		<mockito.version>1.9.5</mockito.version>
 		<!-- Spring Framework -->
-		<spring.version>4.2.5.RELEASE</spring.version>
+		<spring.version>4.3.3.RELEASE</spring.version>
 		<aspect.version>1.7.4</aspect.version>
 		<!-- Freemarker -->
 		<freemarker.version>2.3.18</freemarker.version>
@@ -77,11 +77,23 @@
 		<slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
 		<persistence-api.version>1.0</persistence-api.version>
 		<json-alibaba>1.2.7</json-alibaba>
+		<kafka.version>0.9.0.0</kafka.version>
+		<kafka.spring.version>2.1.0.RELEASE</kafka.spring.version>
 	</properties>
 
 
 
 	<dependencies>
+		 <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.10</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+		<dependency>
+    		<groupId>org.springframework.integration</groupId>
+    		<artifactId>spring-integration-kafka</artifactId>
+    		<version>${kafka.spring.version}</version>
+		</dependency>
 		<dependency>
    			<groupId>com.alibaba</groupId>
     		<artifactId>fastjson</artifactId>

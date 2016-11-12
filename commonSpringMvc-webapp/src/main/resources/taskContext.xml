@@ -4,6 +4,7 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -11,35 +12,18 @@
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd" 
-        >
-
-	<!--i18n -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>classpath:i18n/messages</value>
-			</list>
-		</property>
-		<property name="defaultEncoding" value="UTF-8" />
-		<property name="fallbackToSystemLocale" value="false" />
-	</bean>
-
-	<!-- validator -->
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="validationMessageSource" ref="messageSource" />
-	</bean>
-
-	<context:component-scan base-package="com.maoshen" />
-	<context:annotation-config />
-    
-    <!-- sqldb,dubbo,redis,timeTask -->
-    <import resource="sqlContext.xml" />
-	<import resource="dubboContext.xml" />
-	<import resource="redisContext.xml" />
-	<import resource="taskContext.xml" />
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!-- task -->
+	<task:annotation-driven /> <!-- 定时器开关-->  
+    <bean id="echoTask" class="com.maoshen.echo.task.EchoTask"></bean>  
+    <task:scheduled-tasks>  
+        <!--  
+            这里表示的是每隔60秒执行一次  
+        -->  
+        <task:scheduled ref="echoTask" method="doJob" cron="0 0/1 * * * ?" />  
+    </task:scheduled-tasks>  
 </beans>
 
 

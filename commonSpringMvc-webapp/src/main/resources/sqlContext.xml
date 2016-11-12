@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+<!--  
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/jdxTest" />
+		<property name="username" value="root" />
+		<property name="password" value="jdxjdx100424" />
+	</bean>-->
+
+	<bean id="masterDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jdxTestMaster" />
+		<property name="username" value="root" />
+		<property name="password" value="jdxjdx100424" />
+	</bean>
+
+	<bean id="slaveDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jdxTestSlave" />
+		<property name="username" value="root" />
+		<property name="password" value="jdxjdx100424" />
+	</bean>
+	<bean id="dataSource" class="com.maoshen.component.db.ReplicationDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="master" value-ref="masterDataSource" />
+				<entry key="slave" value-ref="slaveDataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="masterDataSource" />
+	</bean>
+
+
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.maoshen.**.dao" />
+		<property name="sqlSessionFactoryBeanName" value="myBatisSqlSessionFactory" />
+		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
+	</bean>
+	<bean id="myBatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:mapper/*Mapper.xml" />
+	</bean>
+
+	<bean id='replicationDataSourceAspect' class="com.maoshen.component.db.ReplicationDataSourceAspect">
+	</bean>
+
+	<aop:config>
+		<aop:aspect id="c" ref="replicationDataSourceAspect">
+			<aop:pointcut id="mapperTx"
+				expression="execution(* com.maoshen.*.service.*.*(..))" />
+			<aop:before pointcut-ref="mapperTx" method="before" />
+		</aop:aspect>
+	</aop:config>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+</beans>
+
+
