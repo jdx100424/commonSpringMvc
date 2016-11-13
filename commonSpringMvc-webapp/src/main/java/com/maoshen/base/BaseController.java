@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.maoshen.component.util.JsonpUtil;
+import com.maoshen.component.json.JsonpUtil;
 import com.maoshen.errorcode.ErrorCode;
 import com.maoshen.response.ResponseResult;
 
