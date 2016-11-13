@@ -21,9 +21,9 @@
 	<bean id="jedisFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<property name="usePool" value="true" />
-		<property name="hostName" value="127.0.0.1" />
+		<property name="hostName" value="${redis.ip}" />
 		<property name="password" value="" />
-		<property name="port" value="6379" />
+		<property name="port" value="${redis.port}" />
 		<constructor-arg index="0" ref="jedisPoolConfig" />
 	</bean>
 	<!-- spring data redis -->
