@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.maoshen.base.BaseController;
+import com.maoshen.component.kafka.BaseProducer;
+import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
 import com.maoshen.echo.vo.EchoVO;
@@ -41,6 +43,10 @@ public class EchoController extends BaseController {
 	@Autowired
 	@Qualifier("echoServiceImpl")
 	private EchoService echoService;
+	
+	@Autowired
+	@Qualifier("baseProducer")
+	private BaseProducer baseProducer;
 
 	/**
 	 * 
@@ -84,6 +90,17 @@ public class EchoController extends BaseController {
 			LOGGER.error("redisService error:", e);
 			resultMap.put("redisHasResult", e.getMessage());
 		}
+		
+		try{
+			Map<String,Object> sendMap = new HashMap<String,Object>();
+			sendMap.put("jdx", UUID.randomUUID().toString());
+			baseProducer.send(MessageVo.ECHO_MESSAGE.getTopicName(), sendMap);
+			resultMap.put("kakfaResult", true);
+		} catch (Exception e) {
+			LOGGER.error("kakfaService error:", e);
+			resultMap.put("kakfaResult", e.getMessage());
+		}
+
 
 		return new ResponseResult<Map<String, Object>>(resultMap);
 	}
