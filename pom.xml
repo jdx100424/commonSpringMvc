@@ -80,12 +80,23 @@
 		<kafka.version>0.9.0.0</kafka.version>
 		<kafka.spring.version>2.1.0.RELEASE</kafka.spring.version>
 		<com.baidu.disconf.version>2.6.31</com.baidu.disconf.version>
-		
+		<zkclient.version>0.3</zkclient.version>
+        <zookeeper.version>3.4.8</zookeeper.version>
 	</properties>
 
 
 
 	<dependencies>
+     	<dependency>  
+        	<groupId>org.apache.zookeeper</groupId>  
+			<artifactId>zookeeper</artifactId>  
+			<version>${zookeeper.version}</version>  
+     	</dependency>  	
+		<dependency>
+    		<groupId>com.101tec</groupId>
+    		<artifactId>zkclient</artifactId>
+    		<version>${zkclient.version}</version>
+		</dependency>		
 		<dependency>
     		<groupId>com.baidu.disconf</groupId>
     		<artifactId>disconf-client</artifactId>
