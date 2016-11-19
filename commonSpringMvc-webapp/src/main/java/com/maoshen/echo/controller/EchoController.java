@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.maoshen.base.BaseController;
+import com.maoshen.component.disconf.KafkaDisconf;
 import com.maoshen.component.kafka.BaseProducer;
 import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.echo.domain.Echo;
@@ -47,6 +48,9 @@ public class EchoController extends BaseController {
 	@Autowired
 	@Qualifier("baseProducer")
 	private BaseProducer baseProducer;
+	
+	@Autowired
+	private KafkaDisconf kafkaDisconf;
 
 	/**
 	 * 
@@ -101,6 +105,16 @@ public class EchoController extends BaseController {
 			resultMap.put("kakfaResult", e.getMessage());
 		}
 
+		
+		try{
+			Map<String,Object> sendMap = new HashMap<String,Object>();
+			sendMap.put("kafkaIp", kafkaDisconf.getKafkaIp());
+			sendMap.put("kafkaPort", kafkaDisconf.getKafkaPort());
+			resultMap.put("disconfResult", sendMap);
+		} catch (Exception e) {
+			LOGGER.error("disconfResult error:", e);
+			resultMap.put("disconfResult", e.getMessage());
+		}
 
 		return new ResponseResult<Map<String, Object>>(resultMap);
 	}

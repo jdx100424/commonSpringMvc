@@ -13,18 +13,31 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd" 
         >
+    
+	<context:component-scan base-package="com.maoshen" />
+	<context:component-scan base-package="com.baidu" />
+    <context:annotation-config />
+	<!-- 使用disconf必须添加以下配置 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean"
+	      destroy-method="destroy">
+	    <property name="scanPackage" value="com.maoshen.component.disconf"/>
+	</bean>
+	<bean id="disconfMgrBean2" class="com.baidu.disconf.client.DisconfMgrBeanSecond"
+	      init-method="init" destroy-method="destroy">
+	</bean>
 
   	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="locations">  
            <list>  
-              <!-- 这里支持多种寻址方式：classpath和file -->  
               <value>classpath:kafka.properties</value>  
               <value>classpath:mysql.properties</value>  
               <value>classpath:redis.properties</value>  
               <value>classpath:zookeeper.properties</value>  
             </list>  
         </property>  
-    </bean> 
+    </bean>
+    
 
 	<!--i18n -->
 	<bean id="messageSource"
@@ -43,9 +56,6 @@
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
-
-	<context:component-scan base-package="com.maoshen" />
-	<context:annotation-config />
     
     <!-- sqldb,dubbo,redis,timeTask -->
     <import resource="sqlContext.xml" />
