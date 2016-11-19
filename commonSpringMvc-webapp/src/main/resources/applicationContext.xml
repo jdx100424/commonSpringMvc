@@ -27,7 +27,8 @@
 	      init-method="init" destroy-method="destroy">
 	</bean>
 
-  	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+	<!-- /Users/jdx/jiangdaxian/disconfProperties -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="locations">  
            <list>  
               <value>classpath:kafka.properties</value>  
@@ -37,7 +38,6 @@
             </list>  
         </property>  
     </bean>
-    
 
 	<!--i18n -->
 	<bean id="messageSource"
