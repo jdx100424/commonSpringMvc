@@ -63,7 +63,7 @@
                   <directory>${basedir}/src/main/java</directory>
                   <includes>
                     <include>**/*.xml</include>
-                    <include>*.properties</include>
+                    <include>disconf.properties</include>
                   </includes>
                 </resource>
               </resources>
