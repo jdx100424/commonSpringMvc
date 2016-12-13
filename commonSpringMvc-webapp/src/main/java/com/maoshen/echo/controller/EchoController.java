@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.maoshen.base.BaseController;
+import com.maoshen.component.base.dto.ResponseResultDto;
+import com.maoshen.component.controller.BaseController;
 import com.maoshen.component.disconf.KafkaDisconf;
 import com.maoshen.component.disconf.MysqlDisconf;
 import com.maoshen.component.kafka.BaseProducer;
@@ -27,7 +28,6 @@ import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
 import com.maoshen.echo.vo.EchoVO;
-import com.maoshen.response.ResponseResult;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class EchoController extends BaseController {
 	 */
 	@RequestMapping(value = "check", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseResult<Map<String, Object>> echo(HttpServletRequest request, Model model, String src) {
+	public ResponseResultDto<Map<String, Object>> echo(HttpServletRequest request, Model model, String src) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
@@ -122,7 +122,7 @@ public class EchoController extends BaseController {
 			resultMap.put("disconfResult", e.getMessage());
 		}
 
-		return new ResponseResult<Map<String, Object>>(resultMap);
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
 	}
 
 	/**
@@ -191,10 +191,16 @@ public class EchoController extends BaseController {
 	 */
 	@RequestMapping(value = "/testReceiveJson", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseResult<EchoVO> testReceiveJson(HttpServletRequest request, Model model,@RequestBody EchoVO echoVO) throws Exception{
-		LOGGER.info("testReceiveJson result value:" +  JSONObject.toJSONString(echoVO));
-		echoVO.setId(echoVO.getId()+ 5);
+	public ResponseResultDto<EchoVO> testReceiveJson(HttpServletRequest request, Model model,
+			@RequestBody EchoVO echoVO) throws Exception {
+		LOGGER.info("testReceiveJson result value:" + JSONObject.toJSONString(echoVO));
+		echoVO.setId(echoVO.getId() + 5);
 		echoVO.setName(echoVO.getName() + "echo");
-		return new ResponseResult<EchoVO>(echoVO);
+		return new ResponseResultDto<EchoVO>(echoVO);
+	}
+
+	@Override
+	public String getServiceName() {
+		return "EchoController";
 	}
 }
