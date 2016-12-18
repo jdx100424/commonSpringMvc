@@ -20,9 +20,9 @@
     <bean id="echoTask" class="com.maoshen.echo.task.EchoTask"></bean>  
     <task:scheduled-tasks>  
         <!--  
-            这里表示的是每隔60秒执行一次  
+            这里表示的是每隔60*30秒执行一次  
         -->  
-        <task:scheduled ref="echoTask" method="doJob" cron="0 0/1 * * * ?" />  
+        <task:scheduled ref="echoTask" method="doJob" cron="0 0/30 * * * ?" />  
     </task:scheduled-tasks>  
 </beans>
 

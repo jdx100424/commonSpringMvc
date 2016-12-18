@@ -16,7 +16,7 @@ public class EchoTask extends BaseRedisTask{
 	
 	private static final String NAME = "ECHO_TASK";
 	
-	private static final Long EXPIRE_TIME = 300L;
+	private static final Long EXPIRE_TIME = 30L;
 
 	@Override
 	public String getName() {
