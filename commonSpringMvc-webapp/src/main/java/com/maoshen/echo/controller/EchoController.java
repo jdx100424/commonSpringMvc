@@ -100,18 +100,16 @@ public class EchoController extends BaseController {
 		}
 		
 		try{
-			for(int i=0;i<3;i++){
 			Map<String,Object> sendMap = new HashMap<String,Object>();
 			sendMap.put("jdx", UUID.randomUUID().toString());
-			baseProducer.send(MessageVo.ECHO_MESSAGE_SUB.getTopicName(), sendMap,"jdx" );
-			}
-			
+			baseProducer.send(MessageVo.ECHO_MESSAGE.getTopicName(), sendMap,"jdx" );
 			resultMap.put("kakfaResult", true);
-			
+	
+			Map<String,Object> sendMapSub = new HashMap<String,Object>();
 			String requestId = UUID.randomUUID().toString();
-			sendMap.put("jdx2", UUID.randomUUID().toString());
+			sendMapSub.put("jdx2", UUID.randomUUID().toString());
 			for(int i=0;i<3;i++){
-				baseProducer.send(MessageVo.ECHO_MESSAGE_SUB.getTopicName(), sendMap,requestId);
+				baseProducer.send(MessageVo.ECHO_MESSAGE_SUB.getTopicName(), sendMapSub,requestId);
 			}
 		} catch (Exception e) {
 			LOGGER.error("kakfaService error:", e);
