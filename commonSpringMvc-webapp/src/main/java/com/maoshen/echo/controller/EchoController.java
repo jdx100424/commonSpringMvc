@@ -104,6 +104,12 @@ public class EchoController extends BaseController {
 			sendMap.put("jdx", UUID.randomUUID().toString());
 			baseProducer.send(MessageVo.ECHO_MESSAGE.getTopicName(), sendMap,UUID.randomUUID().toString());
 			resultMap.put("kakfaResult", true);
+			
+			String requestId = UUID.randomUUID().toString();
+			sendMap.put("jdx2", UUID.randomUUID().toString());
+			for(int i=0;i<3;i++){
+				baseProducer.send(MessageVo.ECHO_MESSAGE_SUB.getTopicName(), sendMap,requestId);
+			}
 		} catch (Exception e) {
 			LOGGER.error("kakfaService error:", e);
 			resultMap.put("kakfaResult", e.getMessage());
