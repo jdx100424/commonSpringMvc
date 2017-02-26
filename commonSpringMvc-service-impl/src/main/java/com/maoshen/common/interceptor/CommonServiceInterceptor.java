@@ -1,18 +1,18 @@
 package com.maoshen.common.interceptor;
 
+
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.maoshen.component.aop.interceptor.service.ServiceInterceptor;
 
-//@Aspect
-//@Component
-//@Order(0)
+@Aspect
+@Component
+@Order(0)
 public class CommonServiceInterceptor extends ServiceInterceptor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonServiceInterceptor.class);
 
@@ -21,12 +21,7 @@ public class CommonServiceInterceptor extends ServiceInterceptor {
 	}
 
 	@Override
-	public long setLockTime() {
-		return 30;
-	}
-
-	//@Override
-	//@Pointcut("execution(* com.maoshen.*.service..*.*(..))")
+	@Pointcut("execution(* com.maoshen.*.service..*.*(..))")
 	public void pointcut() {
 
 	}

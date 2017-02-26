@@ -45,13 +45,25 @@
 	    <!--#################################################### XssFilter ############################################# -->
     <filter>
         <filter-name>XssSqlFilter</filter-name>
-        <filter-class>com.maoshen.filter.XssFilter</filter-class>
+        <filter-class>com.maoshen.component.filter.XssFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>XssSqlFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+    
+    <!--#################################################### UserFilter ############################################# -->
+     <filter>
+        <filter-name>UserFilter</filter-name>
+        <filter-class>com.maoshen.component.filter.UserFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    
      <!--#################################################### log4j ############################################# -->
     <context-param>
         <param-name>log4jConfigLocation</param-name>

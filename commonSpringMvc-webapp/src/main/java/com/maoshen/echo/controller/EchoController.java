@@ -26,6 +26,7 @@ import com.maoshen.component.disconf.MysqlDisconf;
 import com.maoshen.component.kafka.BaseProducer;
 import com.maoshen.component.kafka.dto.MessageDto;
 import com.maoshen.component.kafka.dto.MessageVo;
+import com.maoshen.component.rest.UserRestContext;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.EchoService;
 import com.maoshen.echo.vo.EchoVO;
@@ -67,6 +68,10 @@ public class EchoController extends BaseController {
 	@RequestMapping(value = "check", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
 	public ResponseResultDto<Map<String, Object>> echo(HttpServletRequest request, Model model, String src) {
+		UserRestContext userRestContext = UserRestContext.get();
+		LOGGER.info(request.getParameter("accessToken"));
+		LOGGER.info(userRestContext.getAccessToken());
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
@@ -103,16 +108,9 @@ public class EchoController extends BaseController {
 		try{
 			Map<String,Object> sendMap = new HashMap<String,Object>();
 			sendMap.put("jdx", UUID.randomUUID().toString());
-			//baseProducer.send(MessageVo.ECHO_MESSAGE.getTopicName(), sendMap,"jdx" );
+			MessageDto dto = new MessageDto(sendMap);
+			baseProducer.send(MessageVo.ECHO_MESSAGE.getTopicName(), dto);
 			resultMap.put("kakfaResult", true);
-
-			String requestId = UUID.randomUUID().toString();
-			for(int i=0;i<1;i++){
-				Map<String,Object> sendMapSub = new HashMap<String,Object>();
-				sendMapSub.put("jdx2", "XXXXXXXXX");
-				MessageDto dto = new MessageDto(sendMapSub,requestId);
-				baseProducer.send(MessageVo.ECHO_MESSAGE.getTopicName(), dto);
-			}
 		} catch (Exception e) {
 			LOGGER.error("kakfaService error:", e);
 			resultMap.put("kakfaResult", e.getMessage());
