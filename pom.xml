@@ -82,11 +82,27 @@
 		<com.baidu.disconf.version>2.6.31</com.baidu.disconf.version>
 		<zkclient.version>0.3</zkclient.version>
         <zookeeper.version>3.4.8</zookeeper.version>
+        <dubbo-alibaba>2.5.3</dubbo-alibaba>
 	</properties>
 
 
 
 	<dependencies>
+		<dependency>  
+        	<groupId>com.alibaba</groupId>  
+        	<artifactId>dubbo</artifactId>  
+        	<version>${dubbo-alibaba}</version>  
+        	<exclusions>
+            	<exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty</artifactId>
+                    <groupId>org.jboss.netty</groupId>
+                </exclusion>
+            </exclusions>
+     	</dependency>  
      	<dependency>  
         	<groupId>org.apache.zookeeper</groupId>  
 			<artifactId>zookeeper</artifactId>  
