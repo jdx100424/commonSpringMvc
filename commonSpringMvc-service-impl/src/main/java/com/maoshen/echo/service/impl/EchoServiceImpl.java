@@ -3,13 +3,15 @@ package com.maoshen.echo.service.impl;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maoshen.component.redis.RedisService;
+import com.maoshen.echo.async.EchoProcesser;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.dubbo.EchoDubbo;
 import com.maoshen.echo.service.EchoService;
@@ -26,7 +28,10 @@ public class EchoServiceImpl implements EchoService {
 	@Qualifier("echoDubboImpl")
 	private EchoDubbo echoDubbo;
 	
-	private static final Logger LOGGER = Logger.getLogger(EchoServiceImpl.class);
+	@Autowired
+	private EchoProcesser echoProcesser;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(EchoServiceImpl.class);
 
 	@Override
 	public boolean checkEchoIsExist(Long id) {
@@ -69,7 +74,13 @@ public class EchoServiceImpl implements EchoService {
 
 	@Override
 	public boolean checkDubbo(Long id) {
-		return echoDubbo.checkEchoIsExistByDubbo(id);
+		try{
+			return echoDubbo.checkEchoIsExistByDubbo(id);
+		}catch(Exception e){
+			LOGGER.error(e.getMessage(),e);
+			echoProcesser.submit();
+			return false;
+		}
 	}
 
 }

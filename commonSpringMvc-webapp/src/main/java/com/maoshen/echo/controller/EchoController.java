@@ -8,7 +8,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ import com.maoshen.echo.vo.EchoVO;
 @Controller
 @RequestMapping("/echo")
 public class EchoController extends BaseController {
-	private static final Logger LOGGER = Logger.getLogger(EchoController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EchoController.class);
 
 	@Autowired
 	@Qualifier("echoServiceImpl")
@@ -67,12 +68,17 @@ public class EchoController extends BaseController {
 	 */
 	@RequestMapping(value = "check", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseResultDto<Map<String, Object>> echo(HttpServletRequest request, Model model, String src) {
+	public ResponseResultDto<Map<String, Object>> check(HttpServletRequest request, Model model, String src) {
 		UserRestContext userRestContext = UserRestContext.get();
 		LOGGER.info(request.getParameter("accessToken"));
 		LOGGER.info(userRestContext.getAccessToken());
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("controllerLoggerDebug" , LOGGER.isDebugEnabled());
+		resultMap.put("controllerLoggerInfo" , LOGGER.isInfoEnabled());
+		resultMap.put("controllerLoggerWarn" , LOGGER.isWarnEnabled());
+		resultMap.put("controllerLoggerError" , LOGGER.isErrorEnabled());
+		
 		try {
 			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
 			boolean resultSelectTwo = echoService.checkEchoIsExist(2L);

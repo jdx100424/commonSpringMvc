@@ -36,7 +36,6 @@ public class EchoProcesser extends AsyncTaskProcesser {
 		public void run() {
 			try{
 				logger.info("echoPrecesser running");
-				
 			}catch(Exception e){
 				logger.error(e.getMessage(),e);
 			}
