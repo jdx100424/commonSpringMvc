@@ -83,11 +83,17 @@
 		<zkclient.version>0.3</zkclient.version>
         <zookeeper.version>3.4.8</zookeeper.version>
         <dubbo-alibaba>2.5.3</dubbo-alibaba>
+        <druid-alibaba>1.0.29</druid-alibaba>
 	</properties>
 
 
 
 	<dependencies>
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>druid</artifactId>
+		    <version>${druid-alibaba}</version>
+		</dependency>	
 		<dependency>  
         	<groupId>com.alibaba</groupId>  
         	<artifactId>dubbo</artifactId>  

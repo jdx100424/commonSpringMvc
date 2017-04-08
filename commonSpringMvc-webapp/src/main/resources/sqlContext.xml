@@ -23,18 +23,33 @@
 		<property name="password" value="jdxjdx100424" />
 	</bean>-->
 
-	<bean id="masterDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<!-- 
+	<bean id="masterDataSource" class="org.apache.commons.dbcp2.BasicDataSource">-->
+	<bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+		<!--  
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${mysql.master.ip}:${mysql.master.port}/jdxTestMaster" />
+		-->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://${mysql.master.ip}:${mysql.master.port}/jdxTestMaster" />
 		<property name="username" value="${mysql.master.username}" />
 		<property name="password" value="${mysql.master.password}" />
+		<property name="maxActive" value="100" />  
+		<property name="initialSize" value="10" />  
 	</bean>
-
-	<bean id="slaveDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<!--  
+	<bean id="slaveDataSource" class="org.apache.commons.dbcp2.BasicDataSource">-->
+	<bean id="slaveDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<!--  
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${mysql.slave.ip}:${mysql.slave.port}/jdxTestSlave" />
+		-->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://${mysql.slave.ip}:${mysql.slave.port}/jdxTestSlave" />
 		<property name="username" value="${mysql.slave.username}" />
 		<property name="password" value="${mysql.slave.password}" />
+		<property name="maxActive" value="100" />  
+		<property name="initialSize" value="10" />  
 	</bean>
 	<bean id="dataSource" class="com.maoshen.component.db.ReplicationDataSource">
 		<property name="targetDataSources">
