@@ -30,7 +30,41 @@
     </dependency>
   </dependencies>
 
+<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			 <properties>  
+                <disconf.env>local</disconf.env>  
+            </properties>  
+		</profile>
+		<profile>
+			<id>qa</id>
+			 <properties>  
+                <disconf.env>qa</disconf.env>  
+            </properties>
+		</profile>
+	</profiles>
+
   <build>
+  <resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>disconf.properties</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
     <plugins>
       <!-- Maven Compiler: Compiles the project -->
       <plugin>

@@ -21,6 +21,7 @@
     <dubbo:registry address="zookeeper://${zookeeper.ip}:${zookeeper.port}" check="false"></dubbo:registry>  
     <!-- 要暴露的服务接口 -->    
 	<dubbo:reference interface="com.maoshen.echo.dubbo.EchoDubbo" id="echoDubboImpl" timeout="10000" check="false"/>        
+	<dubbo:reference interface="com.maoshen.version.dubbo.VersionDubbo" id="versionDubbo" timeout="10000" check="false" version="${dubbo.version}"/>        
 </beans>
 
 
