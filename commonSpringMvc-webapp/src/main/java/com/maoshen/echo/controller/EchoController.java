@@ -59,6 +59,23 @@ public class EchoController extends BaseController {
 	@Autowired
 	private MysqlDisconf mysqlDisconf;
 
+	@RequestMapping(value = "kafkaTest", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> kafkaTest(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try{
+			Map<String,Object> sendMap = new HashMap<String,Object>();
+			sendMap.put("jdx", UUID.randomUUID().toString());
+			MessageDto dto = new MessageDto(sendMap);
+			baseProducer.send(MessageVo.ECHO_MESSAGE_SUB.getTopicName(), dto);
+			resultMap.put("kakfaResult", true);
+		} catch (Exception e) {
+			LOGGER.error("kakfaService error:", e);
+			resultMap.put("kakfaResult", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
+	
 	/**
 	 * 
 	 * @param request
