@@ -11,10 +11,10 @@ import com.maoshen.component.task.BaseRedisTask;
  * @author jdx
  *
  */
-public class EchoTask extends BaseRedisTask{
-	private static final Logger LOGGER = Logger.getLogger(EchoTask.class);
+public class EchoTask3 extends BaseRedisTask{
+	private static final Logger LOGGER = Logger.getLogger(EchoTask3.class);
 	
-	private static final String NAME = "ECHO_TASK";
+	private static final String NAME = "ECHO_TASK3";
 	
 	private static final Long EXPIRE_TIME = 30L;
 
