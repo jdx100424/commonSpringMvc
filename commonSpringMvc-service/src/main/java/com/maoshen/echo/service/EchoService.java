@@ -1,6 +1,8 @@
 package com.maoshen.echo.service;
 
 import com.maoshen.component.db.DataSource;
+import com.maoshen.component.mybatis.Master;
+import com.maoshen.component.mybatis.Slave;
 import com.maoshen.echo.domain.Echo;
 
 public interface EchoService {
@@ -14,7 +16,7 @@ public interface EchoService {
 	 * @param id
 	 * @return
 	 */
-	@DataSource("slave")
+	//@DataSource("slave")
 	public boolean checkEchoIsExist(Long id);
     
 	/**
@@ -22,7 +24,8 @@ public interface EchoService {
 	 * @param echo
 	 * @throws Exception
 	 */
-	@DataSource("master")
+	//@DataSource("master")
+	@Master
 	public void insert(Echo echo) throws Exception;
 	
 	/**

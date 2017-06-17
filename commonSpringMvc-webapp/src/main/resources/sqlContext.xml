@@ -51,7 +51,7 @@
 		<property name="maxActive" value="100" />  
 		<property name="initialSize" value="10" />  
 	</bean>
-	<bean id="dataSource" class="com.maoshen.component.db.ReplicationDataSource">
+	<bean id="dataSource" class="com.maoshen.component.mybatis.MybatisReplicationDataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<entry key="master" value-ref="masterDataSource" />
@@ -68,21 +68,19 @@
 		<property name="sqlSessionFactoryBeanName" value="myBatisSqlSessionFactory" />
 		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
 	</bean>
+	
+	<bean id="mybatisReplicationDataSourceInterceptor" class="com.maoshen.component.mybatis.MybatisReplicationDataSourceInterceptor">  
+    </bean>  
 	<bean id="myBatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath*:mapper/*Mapper.xml" />
+		<property name="plugins">
+			<list>
+				<ref bean="mybatisReplicationDataSourceInterceptor" />
+			</list>
+		</property>
 	</bean>
 
-	<bean id='replicationDataSourceAspect' class="com.maoshen.component.db.ReplicationDataSourceAspect">
-	</bean>
-
-	<aop:config>
-		<aop:aspect id="c" ref="replicationDataSourceAspect">
-			<aop:pointcut id="mapperTx"
-				expression="execution(* com.maoshen.*.service.*.*(..))" />
-			<aop:before pointcut-ref="mapperTx" method="before" />
-		</aop:aspect>
-	</aop:config>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>

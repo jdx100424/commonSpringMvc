@@ -21,25 +21,21 @@
 	
 	<!-- task -->
 	<task:annotation-driven /> <!-- 定时器开关-->  
-    <bean id="echoTask" class="com.maoshen.echo.task.EchoTask"></bean>
-    <bean id="echoTask2" class="com.maoshen.echo.task.EchoTask2"></bean>  
-    <bean id="echoTask3" class="com.maoshen.echo.task.EchoTask3"></bean>    
+    <bean id="echoTask" class="com.maoshen.echo.task.EchoTask"></bean> 
     <task:executor id="executor" pool-size="5" />  
     <task:scheduler id="scheduler" pool-size="5" />  
     <task:scheduled-tasks scheduler="scheduler">  
         <!--  
             这里表示的是每隔60*30秒执行一次  
         -->  
-        <task:scheduled ref="echoTask" method="doJob" cron="0 0/1 * * * ?" />  
-        <task:scheduled ref="echoTask2" method="doJob" cron="0 0/1 * * * ?" /> 
-        <task:scheduled ref="echoTask3" method="doJob" cron="0 0/1 * * * ?" /> 
+        <task:scheduled ref="echoTask" method="doJob" cron="0 0 0/1 * * ?" />  
     </task:scheduled-tasks>  
     
     
     <reg:zookeeper id="regCenter" server-lists="${zookeeper.ip}:${zookeeper.port}" namespace="dd-job" base-sleep-time-milliseconds="1000" max-sleep-time-milliseconds="3000" max-retries="3" />
     
     <!-- 配置简单作业-->
-    <job:simple id="elasticJobTask" class="com.maoshen.echo.task.ElasticJobTask" registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" sharding-item-parameters="0=A" />
+    <job:simple id="elasticJobTask" class="com.maoshen.echo.task.ElasticJobTask" registry-center-ref="regCenter" cron="0 0 0/1 * * ?" sharding-total-count="1" sharding-item-parameters="0=A" />
 </beans>
 
 
