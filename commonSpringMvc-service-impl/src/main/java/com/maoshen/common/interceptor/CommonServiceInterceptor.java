@@ -21,7 +21,7 @@ public class CommonServiceInterceptor extends ServiceInterceptor {
 	}
 
 	@Override
-	@Pointcut("execution(* com.maoshen.*.service..*.*(..))")
+	@Pointcut("execution(* com.maoshen.*.service.impl.*.*(..))")
 	public void pointcut() {
 
 	}

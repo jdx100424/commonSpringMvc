@@ -17,6 +17,7 @@ public interface EchoService {
 	 * @return
 	 */
 	//@DataSource("slave")
+	@Slave
 	public boolean checkEchoIsExist(Long id);
     
 	/**
