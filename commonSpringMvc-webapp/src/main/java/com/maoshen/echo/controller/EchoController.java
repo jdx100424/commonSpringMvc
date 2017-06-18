@@ -29,7 +29,7 @@ import com.maoshen.component.kafka.dto.MessageDto;
 import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.component.rest.UserRestContext;
 import com.maoshen.echo.domain.Echo;
-import com.maoshen.echo.service.EchoService;
+import com.maoshen.echo.service.impl.EchoServiceImpl;
 import com.maoshen.echo.vo.EchoVO;
 
 /**
@@ -47,7 +47,7 @@ public class EchoController extends BaseController {
 
 	@Autowired
 	@Qualifier("echoServiceImpl")
-	private EchoService echoService;
+	private EchoServiceImpl echoServiceImpl;
 	
 	@Autowired
 	@Qualifier("baseProducer")
@@ -97,9 +97,9 @@ public class EchoController extends BaseController {
 		resultMap.put("controllerLoggerError" , LOGGER.isErrorEnabled());
 		
 		try {
-			boolean resultSelectOne = echoService.checkEchoIsExist(1L);
-			boolean resultSelectTwo = echoService.checkEchoIsExist(2L);
-			boolean resultSelectDubbo = echoService.checkDubbo(2L);
+			boolean resultSelectOne = echoServiceImpl.checkEchoIsExist(1L);
+			boolean resultSelectTwo = echoServiceImpl.checkEchoIsExist(2L);
+			boolean resultSelectDubbo = echoServiceImpl.checkDubbo(2L);
 			Map<String, Object> dataResult = new HashMap<String, Object>();
 			dataResult.put("1", resultSelectOne);
 			dataResult.put("2", resultSelectTwo);
@@ -113,7 +113,7 @@ public class EchoController extends BaseController {
 		try {
 			Echo echo = new Echo();
 			echo.setName(UUID.randomUUID().toString());
-			echoService.insert(echo);
+			echoServiceImpl.insert(echo);
 			resultMap.put("echoHasResultInsert", true);
 		} catch (Exception e) {
 			LOGGER.error("echo insert error:", e);
@@ -121,7 +121,7 @@ public class EchoController extends BaseController {
 		}
 		
 		try{
-			boolean result = echoService.checkRedis();
+			boolean result = echoServiceImpl.checkRedis();
 			resultMap.put("redisHasResult", result);
 		} catch (Exception e) {
 			LOGGER.error("redisService error:", e);

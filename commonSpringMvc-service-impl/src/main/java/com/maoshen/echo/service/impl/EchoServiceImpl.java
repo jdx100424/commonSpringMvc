@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maoshen.component.mybatis.Slave;
 import com.maoshen.component.redis.RedisService;
 import com.maoshen.echo.async.EchoProcesser;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.dubbo.EchoDubbo;
-import com.maoshen.echo.service.EchoService;
 
 @Service("echoServiceImpl")
-public class EchoServiceImpl implements EchoService {
+public class EchoServiceImpl{
 	@Autowired
 	private com.maoshen.echo.dao.EchoDao echoDao;
 	
@@ -32,8 +32,8 @@ public class EchoServiceImpl implements EchoService {
 	private EchoProcesser echoProcesser;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EchoServiceImpl.class);
-
-	@Override
+	
+	@Slave
 	public boolean checkEchoIsExist(Long id) {
 		Echo echo = echoDao.selectById(id);
 		boolean result = false;
@@ -43,7 +43,6 @@ public class EchoServiceImpl implements EchoService {
 		return result;
 	}
 
-	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void insert(Echo echo) throws Exception {
 		try{
@@ -54,7 +53,6 @@ public class EchoServiceImpl implements EchoService {
 		}
 	}
 
-	@Override
 	public boolean checkRedis() throws Exception{
 		try{
 			String compareStr = "true";
@@ -72,7 +70,6 @@ public class EchoServiceImpl implements EchoService {
 		}
 	}
 
-	@Override
 	public boolean checkDubbo(Long id) {
 		try{
 			return echoDubbo.checkEchoIsExistByDubbo(id);

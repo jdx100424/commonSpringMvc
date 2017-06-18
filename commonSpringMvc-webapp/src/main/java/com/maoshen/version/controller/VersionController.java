@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.maoshen.component.base.dto.ResponseResultDto;
 import com.maoshen.component.controller.BaseController;
 import com.maoshen.component.rest.UserRestContext;
-import com.maoshen.echo.service.EchoService;
+import com.maoshen.echo.service.impl.EchoServiceImpl;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class VersionController extends BaseController {
 
 	@Autowired
 	@Qualifier("echoServiceImpl")
-	private EchoService echoService;
+	private EchoServiceImpl echoServiceImpl;
 	
 	@Autowired
 	private com.maoshen.version.dubbo.VersionDubbo versionDubbo;
