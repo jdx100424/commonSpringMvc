@@ -28,7 +28,9 @@ import com.maoshen.component.kafka.BaseProducer;
 import com.maoshen.component.kafka.dto.MessageDto;
 import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.component.rest.UserRestContext;
+import com.maoshen.echo.domain.CheckRouteDb;
 import com.maoshen.echo.domain.Echo;
+import com.maoshen.echo.service.impl.CheckRouteDbServiceImpl;
 import com.maoshen.echo.service.impl.EchoServiceImpl;
 import com.maoshen.echo.vo.EchoVO;
 
@@ -48,6 +50,9 @@ public class EchoController extends BaseController {
 	@Autowired
 	@Qualifier("echoServiceImpl")
 	private EchoServiceImpl echoServiceImpl;
+	@Autowired
+	@Qualifier("checkRouteDbServiceImpl")
+	private CheckRouteDbServiceImpl checkRouteDbServiceImpl;
 	
 	@Autowired
 	@Qualifier("baseProducer")
@@ -72,6 +77,34 @@ public class EchoController extends BaseController {
 		} catch (Exception e) {
 			LOGGER.error("kakfaService error:", e);
 			resultMap.put("kakfaResult", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
+	
+	@RequestMapping(value = "checkRouteDb", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> checkRouteDb(HttpServletRequest request, Model model, String src) {
+		LOGGER.info(request.getParameter("timeId"));
+		LOGGER.info(request.getParameter("selectOrInsert"));
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			long timeId = Long.parseLong(request.getParameter("timeId"));
+			CheckRouteDb checkRouteDb = new CheckRouteDb();
+			checkRouteDb.setId(timeId);
+			checkRouteDb.setName(UUID.randomUUID().toString());
+			if("0".equals(request.getParameter("selectOrInsert"))){
+				boolean resultSelectOne = checkRouteDbServiceImpl.selectById(timeId);
+				resultMap.put("result", resultSelectOne);
+			}else{
+				checkRouteDbServiceImpl.insert(checkRouteDb);
+			}
+			echoServiceImpl.checkEchoIsExist(1L);
+			Echo echo = new Echo();
+			echo.setName(UUID.randomUUID().toString());
+			echoServiceImpl.insert(echo);
+		} catch (Exception e) {
+			LOGGER.error("echo select error:", e);
+			resultMap.put("echoHasResultSelect", e.getMessage());
 		}
 		return new ResponseResultDto<Map<String, Object>>(resultMap);
 	}

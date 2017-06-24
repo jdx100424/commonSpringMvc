@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maoshen.echo.dao.CheckRouteDbDao">
+	<resultMap id="checkRouteDbResult" type="com.maoshen.echo.domain.CheckRouteDb">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectById" resultMap="checkRouteDbResult" parameterType="map">
+		select id,name from check_route_db where
+		id=#{id,jdbcType=BIGINT};
+	</select>
+
+	<insert id="insert" parameterType="com.maoshen.echo.domain.CheckRouteDb"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into check_route_db (id,name) values (#{id,jdbcType=BIGINT},#{name,jdbcType=VARCHAR});
+	</insert>
+</mapper>
+
