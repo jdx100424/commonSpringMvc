@@ -101,7 +101,7 @@ public class EchoController extends BaseController {
 			echoServiceImpl.checkEchoIsExist(1L);
 			Echo echo = new Echo();
 			echo.setName(UUID.randomUUID().toString());
-			echoServiceImpl.insert(echo);
+			//echoServiceImpl.insert(echo);
 		} catch (Exception e) {
 			LOGGER.error("echo select error:", e);
 			resultMap.put("echoHasResultSelect", e.getMessage());
