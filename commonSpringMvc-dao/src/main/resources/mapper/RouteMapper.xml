@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maoshen.echo.dao.RouteDao">
+	<resultMap id="routeResult" type="com.maoshen.echo.domain.Route">
+		<result column="id" property="id" jdbcType="BIGINT" />
+	</resultMap>
+
+	<select id="selectById" resultMap="routeResult" parameterType="map">
+		select id from route where
+		id=#{id,jdbcType=BIGINT};
+	</select>
+	<select id="selectAll" resultMap="routeResult" parameterType="map">
+		select id from route
+	</select>
+
+	<insert id="insert" parameterType="com.maoshen.echo.domain.Route">
+		insert into route (id) values (#{id,jdbcType=BIGINT});
+	</insert>
+</mapper>
+

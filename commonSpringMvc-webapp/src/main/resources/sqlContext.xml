@@ -59,6 +59,7 @@
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="masterDataSource" />
+		<property name="routeTableCount" value="4"/>
 	</bean>
 
 	<bean id="lazyDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
@@ -82,9 +83,9 @@
 		<property name="mapperLocations" value="classpath*:mapper/*Mapper.xml" />
 		<property name="plugins">
 			<list>
-				<!-- 
+				
 				<ref bean="mybatisReplicationDataSourceInterceptor" />
-				 -->
+				
 				<ref bean="mybatisReplicationDataSourceInterceptorSeg" />
 			</list>
 		</property>

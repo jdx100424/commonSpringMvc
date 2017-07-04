@@ -30,8 +30,10 @@ import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.component.rest.UserRestContext;
 import com.maoshen.echo.domain.CheckRouteDb;
 import com.maoshen.echo.domain.Echo;
+import com.maoshen.echo.service.dto.RouteDto;
 import com.maoshen.echo.service.impl.CheckRouteDbServiceImpl;
 import com.maoshen.echo.service.impl.EchoServiceImpl;
+import com.maoshen.echo.service.impl.RouteServiceImpl;
 import com.maoshen.echo.vo.EchoVO;
 
 /**
@@ -48,6 +50,9 @@ public class EchoController extends BaseController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EchoController.class);
 
 	@Autowired
+	@Qualifier("routeServiceImpl")
+	private RouteServiceImpl routeServiceImpl;
+	@Autowired
 	@Qualifier("echoServiceImpl")
 	private EchoServiceImpl echoServiceImpl;
 	@Autowired
@@ -63,6 +68,37 @@ public class EchoController extends BaseController {
 	
 	@Autowired
 	private MysqlDisconf mysqlDisconf;
+	
+	@RequestMapping(value = "routeSelectAll", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<List<RouteDto>> routeSelectAll(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<RouteDto> list = null;
+		try {
+			list = routeServiceImpl.selectAll();
+		} catch (Exception e) {
+			LOGGER.error("routeSelectAll error:", e);
+			resultMap.put("routeSelectAllError", e.getMessage());
+		}
+		return new ResponseResultDto<List<RouteDto>>(list);
+	}
+	
+	@RequestMapping(value = "routeInsert", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> routeInsert(HttpServletRequest request, Model model, String src) {
+		LOGGER.info(request.getParameter("id"));
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			long id = Long.parseLong(request.getParameter("id"));
+			RouteDto routeDto = new RouteDto();
+			routeDto.setId(id);
+			routeServiceImpl.insert(routeDto);
+		} catch (Exception e) {
+			LOGGER.error("routeInsert error:", e);
+			resultMap.put("routeInsertError", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
 
 	@RequestMapping(value = "kafkaTest", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
