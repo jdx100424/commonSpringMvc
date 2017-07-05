@@ -90,6 +90,19 @@
 
 
 		<dependencies>
+ 	<!-- 引入的DUBBO -->
+	    <dependency>
+			<groupId>commonDubbo-dubbo</groupId>
+	      	<artifactId>commonDubbo-dubbo</artifactId>
+	      	<version>0.0.2</version>
+	      	<type>jar</type>
+	    </dependency>
+	    <dependency>
+			<groupId>idAutoCreate-dubbo</groupId>
+	      	<artifactId>idAutoCreate-dubbo</artifactId>
+	      	<version>0.0.2</version>
+	      	<type>jar</type>
+	    </dependency>		
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>

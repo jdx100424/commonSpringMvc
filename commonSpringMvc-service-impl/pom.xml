@@ -10,14 +10,6 @@
   <artifactId>commonSpringMvc-service-impl</artifactId>
   <packaging>jar</packaging>
   <dependencies>
-  	<!-- 引入的DUBBO -->
-    <dependency>
-		<groupId>commonDubbo-dubbo</groupId>
-      	<artifactId>commonDubbo-dubbo</artifactId>
-      	<version>0.0.2</version>
-      	<type>jar</type>
-    </dependency>
- 
     <dependency>
       <groupId>commonSpringMvc-dao</groupId>
       <artifactId>commonSpringMvc-dao</artifactId>
