@@ -10,7 +10,16 @@
 		id=#{id,jdbcType=BIGINT};
 	</select>
 	<select id="selectAll" resultMap="routeResult" parameterType="map">
-		select id from route
+		select id from route limit #{start},#{end}
+	</select>
+	
+	<select id="selectAllByMap" resultMap="routeResult" parameterType="map">
+		select id from route where 1  
+		<if test="aaa!=null">
+			and id != #{aaa}
+		</if>
+		
+		limit #{start},#{end}
 	</select>
 
 	<insert id="insert" parameterType="com.maoshen.echo.domain.Route">

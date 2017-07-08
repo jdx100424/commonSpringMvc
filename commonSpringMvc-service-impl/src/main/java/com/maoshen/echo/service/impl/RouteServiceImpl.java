@@ -2,7 +2,9 @@ package com.maoshen.echo.service.impl;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,16 @@ public class RouteServiceImpl{
 	
 	@Master
 	public List<RouteDto> selectAll() {
-		List<Route> route = routeDao.selectAll();
+		Long start=0L;
+		Long end=2L;
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("aaa", 1);
+		List<Route> routeByMap = routeDao.selectAllByMap(map);
+		
+		List<Route> route = routeDao.selectAll(start,end);
 		List<RouteDto> resultList = null;
 		if(route!=null && route.isEmpty()==false){
 			resultList = new ArrayList<RouteDto>();

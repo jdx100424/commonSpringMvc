@@ -59,14 +59,14 @@
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="masterDataSource" />
-		<property name="routeTableCount" value="4"/>
 	</bean>
 
+	<!--  
 	<bean id="lazyDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
 		<property name="targetDataSource">
 			<ref bean='dataSource'/>
 		</property>
-	</bean>
+	</bean>-->
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.maoshen.**.dao" />
@@ -77,15 +77,14 @@
 	<bean id="mybatisReplicationDataSourceInterceptor" class="com.maoshen.component.mybatis.MybatisReplicationDataSourceInterceptor">  
     </bean>  
     <bean id="mybatisReplicationDataSourceInterceptorSeg" class="com.maoshen.component.mybatis.route.MybatisReplicationDataSourceInterceptorSeg">  
+    	<property name="routeTableCount" value="4"/>
     </bean>
 	<bean id="myBatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="lazyDataSource" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath*:mapper/*Mapper.xml" />
 		<property name="plugins">
 			<list>
-				
 				<ref bean="mybatisReplicationDataSourceInterceptor" />
-				
 				<ref bean="mybatisReplicationDataSourceInterceptorSeg" />
 			</list>
 		</property>
@@ -93,7 +92,7 @@
 
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="lazyDataSource"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
