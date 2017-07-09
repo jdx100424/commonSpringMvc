@@ -17,6 +17,7 @@ import com.maoshen.commonspringmvc.util.AutoIdUtil;
 import com.maoshen.component.mybatis.Master;
 import com.maoshen.echo.domain.Route;
 import com.maoshen.echo.service.dto.RouteDto;
+import com.maoshen.echo.service.dto.RouteTestDto;
 
 @Service("routeServiceImpl")
 public class RouteServiceImpl{
@@ -52,7 +53,12 @@ public class RouteServiceImpl{
 			resultList = new ArrayList<RouteDto>();
 			for(Route r:route){
 				RouteDto routeDto = new RouteDto();
-				BeanUtils.copyProperties(r, routeDto);
+				RouteTestDto routeTestDto = new RouteTestDto();
+				routeTestDto.setId(r.getId());
+				routeTestDto.setTestDouble(33.33334445D);
+				BeanUtils.copyProperties(routeTestDto, routeDto);
+				System.out.println(routeDto.getTestDoubleNext());
+				routeDto.setTestDoubleNext(2D);
 				resultList.add(routeDto);
 			}
 		}
