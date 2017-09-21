@@ -24,10 +24,12 @@ import com.maoshen.component.base.dto.ResponseResultDto;
 import com.maoshen.component.controller.BaseController;
 import com.maoshen.component.disconf.KafkaDisconf;
 import com.maoshen.component.disconf.MysqlDisconf;
+import com.maoshen.component.disconf.SentryDisconf;
 import com.maoshen.component.kafka.BaseProducer;
 import com.maoshen.component.kafka.dto.MessageDto;
 import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.component.rest.UserRestContext;
+import com.maoshen.component.sentry.SentryProvider;
 import com.maoshen.echo.domain.CheckRouteDb;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.dto.RouteDto;
@@ -35,6 +37,10 @@ import com.maoshen.echo.service.impl.CheckRouteDbServiceImpl;
 import com.maoshen.echo.service.impl.EchoServiceImpl;
 import com.maoshen.echo.service.impl.RouteServiceImpl;
 import com.maoshen.echo.vo.EchoVO;
+
+import io.sentry.Sentry;
+import io.sentry.event.Event;
+import io.sentry.event.EventBuilder;
 
 /**
  * 
@@ -68,6 +74,24 @@ public class EchoController extends BaseController {
 	
 	@Autowired
 	private MysqlDisconf mysqlDisconf;
+	
+	@Autowired
+	private SentryDisconf sentryDisconf;
+	
+	@RequestMapping(value = "sentryTest", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String,Object>> sentryTest(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Sentry.init(sentryDisconf.getDsn());
+		try {
+			SentryProvider.sendLog("jdx test warn"  , Event.Level.WARNING, LOGGER);
+			resultMap.put("status" , "ok" );
+		} catch (Exception e) {
+			LOGGER.error("routeSelectAll error:", e);
+			resultMap.put("status", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String,Object>>(resultMap);
+	}
 	
 	@RequestMapping(value = "routeSelectAll", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody

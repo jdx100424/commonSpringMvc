@@ -37,6 +37,7 @@
               <value>classpath:zookeeper.properties</value>  
               <value>classpath:log4j.properties</value>  
               <value>classpath:dubbo.properties</value>
+              <value>classpath:sentry.properties</value>
             </list>  
         </property>  
     </bean>

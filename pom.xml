@@ -85,11 +85,17 @@
         <druid-alibaba>1.0.29</druid-alibaba>
         <elastic-job-lite-core.version>2.1.0</elastic-job-lite-core.version>
         <elastic-job-lite-spring.version>2.1.0</elastic-job-lite-spring.version>
+        <sentry-log4j.version>1.5.3</sentry-log4j.version>
 	</properties>
 
 
 
 		<dependencies>
+		<dependency>
+    		<groupId>io.sentry</groupId>
+    		<artifactId>sentry-log4j</artifactId>
+    		<version>${sentry-log4j.version}</version>
+		</dependency>
  	<!-- 引入的DUBBO -->
 	    <dependency>
 			<groupId>commonDubbo-dubbo</groupId>
