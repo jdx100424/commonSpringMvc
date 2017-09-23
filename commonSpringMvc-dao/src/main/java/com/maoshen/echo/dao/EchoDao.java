@@ -10,4 +10,6 @@ public interface EchoDao {
     public Echo selectById(@Param("id")Long id);
     
     public void insert(Echo echo);
+    
+    public void insertAboutId(Echo echo);
 }

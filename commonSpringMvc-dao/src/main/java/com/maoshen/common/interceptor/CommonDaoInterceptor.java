@@ -8,20 +8,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.maoshen.component.aop.interceptor.service.ServiceInterceptor;
+import com.maoshen.component.aop.interceptor.dao.DaoInterceptor;
 
 @Aspect
 @Component
 @Order(0)
-public class CommonServiceInterceptor extends ServiceInterceptor {
+public class CommonDaoInterceptor extends DaoInterceptor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoInterceptor.class);
 
-	public CommonServiceInterceptor() {
-		LOGGER.info("{} {}_service Interceptor is start", CommonServiceInterceptor.class.getName(), getServiceName());
+	public CommonDaoInterceptor() {
+		LOGGER.info("{} {}_dao Interceptor is start", CommonDaoInterceptor.class.getName(), getServiceName());
 	}
 
 	@Override
-	@Pointcut("execution(* com.maoshen.*.service.impl.*.*(..))")
+	@Pointcut("execution(* com.maoshen.*.dao.*.*(..))")
 	public void pointcut() {
 
 	}

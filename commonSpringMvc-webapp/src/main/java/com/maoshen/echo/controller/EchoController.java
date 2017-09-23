@@ -1,5 +1,6 @@
 package com.maoshen.echo.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,13 +79,45 @@ public class EchoController extends BaseController {
 	@Autowired
 	private SentryDisconf sentryDisconf;
 	
+	@RequestMapping(value = "insertSameEchoId", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> insertSameEchoId(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			Echo echo = new Echo();
+			echo.setId(1L);
+			echo.setName("dsfsdfdsfsdddddf");
+			echoServiceImpl.insertAboutId(echo);
+			resultMap.put("echoHasResultInsert", true);
+		} catch (Exception e) {
+			LOGGER.error("echo insert error:", e);
+			resultMap.put("echoHasResultInsert", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
+	@RequestMapping(value = "insertSameEchoName", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> insertSameEchoName(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			Echo echo = new Echo();
+			echo.setName("echo1");
+			echoServiceImpl.insert(echo);
+			resultMap.put("echoHasResultInsert", true);
+		} catch (Exception e) {
+			LOGGER.error("echo insert error:", e);
+			resultMap.put("echoHasResultInsert", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
+	
 	@RequestMapping(value = "sentryTest", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
 	public ResponseResultDto<Map<String,Object>> sentryTest(HttpServletRequest request, Model model, String src) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Sentry.init(sentryDisconf.getDsn());
 		try {
-			SentryProvider.sendLog("jdx test warn"  , Event.Level.WARNING, LOGGER);
+			SentryProvider.sendLog(getServiceName(),"jdx test warn"  , Event.Level.WARNING, LOGGER);
 			resultMap.put("status" , "ok" );
 		} catch (Exception e) {
 			LOGGER.error("routeSelectAll error:", e);

@@ -15,5 +15,10 @@
 		useGeneratedKeys="true" keyProperty="id">
 		insert into echo (name) values (#{name,jdbcType=VARCHAR});
 	</insert>
+	
+	<insert id="insertAboutId" parameterType="com.maoshen.echo.domain.Echo"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into echo (id,name) values (#{id,jdbcType=BIGINT},#{name,jdbcType=VARCHAR});
+	</insert>
 </mapper>
 

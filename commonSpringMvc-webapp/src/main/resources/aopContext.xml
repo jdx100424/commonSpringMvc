@@ -17,7 +17,8 @@
         
 	<bean id='commonServiceInterceptor' class="com.maoshen.common.interceptor.CommonServiceInterceptor">
 	</bean>
-
+	<bean id='commonDaoInterceptor' class="com.maoshen.common.interceptor.CommonDaoInterceptor">
+	</bean>
 
 </beans>
 

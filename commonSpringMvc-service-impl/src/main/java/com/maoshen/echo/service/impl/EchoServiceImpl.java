@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +49,21 @@ public class EchoServiceImpl{
 		try{
 			echoDao.insert(echo);
 		}catch(Exception e){
+			if(e instanceof DuplicateKeyException){
+				System.out.println("DuplicateKeyException");
+			}
+			LOGGER.error("EchoServiceImpl_insert fail",e);
+			throw new Exception(e.getMessage());
+		}
+	}
+	@Transactional(rollbackFor = Exception.class)
+	public void insertAboutId(Echo echo) throws Exception {
+		try{
+			echoDao.insertAboutId(echo);
+		}catch(Exception e){
+			if(e instanceof DuplicateKeyException){
+				System.out.println("DuplicateKeyException");
+			}
 			LOGGER.error("EchoServiceImpl_insert fail",e);
 			throw new Exception(e.getMessage());
 		}
