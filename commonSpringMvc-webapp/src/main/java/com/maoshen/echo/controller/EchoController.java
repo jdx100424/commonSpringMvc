@@ -9,6 +9,9 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import com.maoshen.component.controller.BaseController;
 import com.maoshen.component.disconf.KafkaDisconf;
 import com.maoshen.component.disconf.MysqlDisconf;
 import com.maoshen.component.disconf.SentryDisconf;
+import com.maoshen.component.elasticsearch.BaseElasticSearchClientHandle;
 import com.maoshen.component.kafka.BaseProducer;
 import com.maoshen.component.kafka.dto.MessageDto;
 import com.maoshen.component.kafka.dto.MessageVo;
@@ -231,6 +235,24 @@ public class EchoController extends BaseController {
 			dataResult.put("2", resultSelectTwo);
 			dataResult.put("3", resultSelectDubbo);
 			resultMap.put("echoHasResultSelect", dataResult);
+			
+			Echo e = new Echo();
+			e.setId(1);
+			e.setName("jdx");
+			String str = JSONObject.toJSONString(e);
+			List<String> list = new ArrayList<String>();
+			list.add(str);
+			BaseElasticSearchClientHandle.insert(list, "index1" , "type" );
+			SearchHits hit = BaseElasticSearchClientHandle.select( "index1" , "type", "jdx" , "name" );
+			
+			resultMap.put("hitBool", hit.totalHits());
+			String resultStr = "" ;
+			if(hit.totalHits()>0){
+				for(SearchHit h:hit){
+					resultStr = resultStr + JSONObject.toJSONString(h.getSource());
+				}
+			}
+			resultMap.put("hitResultStr", resultStr);
 		} catch (Exception e) {
 			LOGGER.error("echo select error:", e);
 			resultMap.put("echoHasResultSelect", e.getMessage());

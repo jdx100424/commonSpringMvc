@@ -31,7 +31,7 @@
 		<property name="url" value="jdbc:mysql://${mysql.master.ip}:${mysql.master.port}/jdxTestMaster" />
 		-->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://${mysql.master.ip}:${mysql.master.port}/jdxTestMaster" />
+		<property name="url" value="jdbc:mysql://${mysql.master.ip}:${mysql.master.port}/jdxTestMaster?statementInterceptors=com.maoshen.component.zipkin.BaseMySQLStatementInterceptor" />
 		<property name="username" value="${mysql.master.username}" />
 		<property name="password" value="${mysql.master.password}" />
 		<property name="maxActive" value="100" />  
@@ -45,7 +45,7 @@
 		<property name="url" value="jdbc:mysql://${mysql.slave.ip}:${mysql.slave.port}/jdxTestSlave" />
 		-->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://${mysql.slave.ip}:${mysql.slave.port}/jdxTestSlave" />
+		<property name="url" value="jdbc:mysql://${mysql.slave.ip}:${mysql.slave.port}/jdxTestSlave?statementInterceptors=com.maoshen.component.zipkin.BaseMySQLStatementInterceptor" />
 		<property name="username" value="${mysql.slave.username}" />
 		<property name="password" value="${mysql.slave.password}" />
 		<property name="maxActive" value="100" />  
