@@ -1,0 +1,1 @@
+dubboContextFilter=com.github.kristofa.brave.dubbo.BraveConsumerFilter

@@ -206,16 +206,34 @@ public class EchoController extends BaseController {
 		return new ResponseResultDto<Map<String, Object>>(resultMap);
 	}
 	
+	@RequestMapping(value = "checkZipkin", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> checkZipkin(HttpServletRequest request, Model model, String src) throws Exception {
+		Thread.sleep(2000);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean resultSelectOne = echoServiceImpl.checkEchoIsExist(1L);
+		boolean resultSelectDubbo = echoServiceImpl.checkDubbo(2L);
+		boolean resultSelectTwo = echoServiceImpl.checkEchoIsExist(2L);
+		Map<String, Object> dataResult = new HashMap<String, Object>();
+		dataResult.put("1", resultSelectOne);
+		dataResult.put("2", resultSelectTwo);
+		dataResult.put("3", resultSelectDubbo);
+		resultMap.put("echoHasResultSelect", dataResult);
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
 	/**
 	 * 
 	 * @param request
 	 * @param model
 	 * @param src
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "check", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseResultDto<Map<String, Object>> check(HttpServletRequest request, Model model, String src) {
+	public ResponseResultDto<Map<String, Object>> check(HttpServletRequest request, Model model, String src) throws Exception {
+		//Thread.sleep(2000);
+		
 		UserRestContext userRestContext = UserRestContext.get();
 		LOGGER.info(request.getParameter("accessToken"));
 		LOGGER.info(userRestContext.getAccessToken());
