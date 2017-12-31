@@ -15,6 +15,7 @@ import com.maoshen.idautocreate.duo.ProjectTableIdDuo;
  * @author jdx
  *
  */
+/*
 @Service
 public class AutoIdUtil implements InitializingBean{
 	private static Long routeStartId;
@@ -74,4 +75,4 @@ public class AutoIdUtil implements InitializingBean{
 			throw new Exception(projectName+"," +routeTableName+",getProjectTableIdDto fail");
 		}
 	}
-}
+}*/

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maoshen.commonspringmvc.util.AutoIdUtil;
+//import com.maoshen.commonspringmvc.util.AutoIdUtil;
 import com.maoshen.component.mybatis.Master;
 import com.maoshen.echo.domain.Route;
 import com.maoshen.echo.service.dto.RouteDto;
@@ -23,8 +23,8 @@ import com.maoshen.echo.service.dto.RouteTestDto;
 public class RouteServiceImpl{
 	@Autowired
 	private com.maoshen.echo.dao.RouteDao routeDao;
-	@Autowired
-	private AutoIdUtil autoIdUtil;
+	//@Autowired
+	//private AutoIdUtil autoIdUtil;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(RouteServiceImpl.class);
 	
@@ -70,7 +70,8 @@ public class RouteServiceImpl{
 		try{
 			Route route = new Route();
 			BeanUtils.copyProperties(routeDto,route);
-			Long id = autoIdUtil.getAutoId(AutoIdUtil.routeTableName);
+			//Long id = autoIdUtil.getAutoId(AutoIdUtil.routeTableName);
+			Long id = System.currentTimeMillis();
 			route.setId(id);
 			routeDao.insert(route);
 		}catch(Exception e){

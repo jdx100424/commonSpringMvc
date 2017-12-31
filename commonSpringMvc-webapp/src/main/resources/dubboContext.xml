@@ -22,7 +22,6 @@
     <!-- 要暴露的服务接口 -->    
 	<dubbo:reference interface="com.maoshen.echo.dubbo.EchoDubbo" id="echoDubboImpl" timeout="10000" check="false"/>        
 	<dubbo:reference interface="com.maoshen.version.dubbo.VersionDubbo" id="versionDubbo" timeout="10000" check="false" version="${dubbo.version}"/>        
-	<dubbo:reference interface="com.maoshen.idautocreate.dubbo.ProjectTableIdDubbo"  id="projectTableIdDubbo" timeout="10000" check="false" version="${dubbo.version}"/>        
 
 	<dubbo:consumer filter="dubboContextFilter" />    
 </beans>
