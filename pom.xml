@@ -19,6 +19,10 @@
 		<standard.version>1.1.2</standard.version>
 		<jstl.version>1.2</jstl.version>
 
+		<!-- mongodb -->
+		<spring.data.mongodb>1.9.2.RELEASE</spring.data.mongodb>  
+        <mongodb.java.driver>3.2.2</mongodb.java.driver>  
+
 		<logback.version>1.0.13</logback.version>
 		<slf4j-api.version>1.7.7</slf4j-api.version>
 		<mercury.version>1.1.2</mercury.version>
@@ -90,7 +94,18 @@
 
 
 
-		<dependencies>
+	<dependencies>
+		<dependency>  
+            <groupId>org.mongodb</groupId>  
+            <artifactId>mongo-java-driver</artifactId>  
+            <version>${mongodb.java.driver}</version>  
+        </dependency> 
+        <dependency>  
+            <groupId>org.springframework.data</groupId>  
+            <artifactId>spring-data-mongodb</artifactId>  
+            <version>${spring.data.mongodb}</version>  
+        </dependency> 
+                
 		<dependency>
     		<groupId>io.sentry</groupId>
     		<artifactId>sentry-log4j</artifactId>
@@ -250,6 +265,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>

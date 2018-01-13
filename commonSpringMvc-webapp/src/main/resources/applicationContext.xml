@@ -67,6 +67,7 @@
 	<import resource="taskContext.xml" />
 	<import resource="kafkaContext.xml" />
 	<import resource="aopContext.xml" />
+	<import resource="mongoContext.xml"/>
 </beans>
 
 
