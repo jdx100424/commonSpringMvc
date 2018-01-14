@@ -1,5 +1,6 @@
 package com.maoshen.echo.test;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -83,7 +84,10 @@ public class EsTest extends TestCase {
 		SearchHits hit = response.getHits();
 		if (hit.totalHits() > 0) {
 			for (SearchHit h : hit) {
-				System.out.println(JSONObject.toJSONString(h.getSource()));
+				String s = JSONObject.toJSONString(h.getSource());
+				//JdxTest jdxTest = JSONObject.parseObject(s, JdxTest.class);
+				//System.out.println(JSONObject.toJSONString(jdxTest));
+				System.out.println(s);
 			}
 		}
 		System.out.println();
@@ -105,11 +109,36 @@ public class EsTest extends TestCase {
 		System.out.println();
 	}
 
-	public class JdxTest {
+	public class JdxTest implements Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private Long id;
 		private String name;
 		private String desc;
+		//private String remark;
+		
+		public String getDesc() {
+			return desc;
+		}
 
+		public void setDesc(String desc) {
+			this.desc = desc;
+		}
+		/*
+		public String getRemark() {
+			return remark;
+		}
+
+		public void setRemark(String remark) {
+			this.remark = remark;
+		}*/
+
+		public JdxTest(){
+			
+		}
+		
 		public JdxTest(Long id, String name, String desc) {
 			super();
 			this.id = id;
@@ -132,14 +161,14 @@ public class EsTest extends TestCase {
 		public void setName(String name) {
 			this.name = name;
 		}
-
+		/*
 		public String getDesc() {
 			return desc;
 		}
 
 		public void setDesc(String desc) {
 			this.desc = desc;
-		}
+		}*/
 	}
 
 	public class JdxTestNew {
