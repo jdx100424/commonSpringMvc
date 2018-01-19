@@ -90,11 +90,37 @@
         <elastic-job-lite-core.version>2.1.0</elastic-job-lite-core.version>
         <elastic-job-lite-spring.version>2.1.0</elastic-job-lite-spring.version>
         <sentry-log4j.version>1.5.3</sentry-log4j.version>
+        <hystrix-version>1.5.12</hystrix-version>
 	</properties>
 
 
 
 	<dependencies>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>19.0</version>
+		</dependency>	
+		<dependency>
+		    <groupId>com.netflix.hystrix</groupId>
+		    <artifactId>hystrix-servo-metrics-publisher</artifactId>
+		    <version>${hystrix-version}</version>
+		</dependency>	
+		<dependency>
+		    <groupId>com.netflix.hystrix</groupId>
+		    <artifactId>hystrix-metrics-event-stream</artifactId>
+		    <version>${hystrix-version}</version>
+		</dependency>	
+		<dependency>
+		    <groupId>com.netflix.hystrix</groupId>
+		    <artifactId>hystrix-javanica</artifactId>
+		    <version>${hystrix-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.netflix.hystrix</groupId>
+		    <artifactId>hystrix-core</artifactId>
+		    <version>${hystrix-version}</version>
+		</dependency>	
 		<dependency>  
             <groupId>org.mongodb</groupId>  
             <artifactId>mongo-java-driver</artifactId>  

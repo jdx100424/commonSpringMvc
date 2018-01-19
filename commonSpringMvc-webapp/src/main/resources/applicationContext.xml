@@ -19,6 +19,8 @@
     <context:annotation-config />
 	<!-- 使用disconf必须添加以下配置 -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<bean id="hystrixAspect" class="com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect"></bean>
+	
 	<bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean"
 	      destroy-method="destroy">
 	    <property name="scanPackage" value="com.maoshen.component.disconf"/>

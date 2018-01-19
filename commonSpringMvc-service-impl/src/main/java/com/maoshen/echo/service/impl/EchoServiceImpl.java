@@ -17,6 +17,9 @@ import com.maoshen.echo.async.EchoProcesser;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.dubbo.EchoDubbo;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+
 @Service("echoServiceImpl")
 public class EchoServiceImpl{
 	@Autowired
@@ -86,6 +89,13 @@ public class EchoServiceImpl{
 		}
 	}
 
+	@HystrixCommand(groupKey = "checkDubboGroupKey", commandKey = "checkDubbo", fallbackMethod = "checkDubboFallback",
+	        commandProperties = {
+	                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),//指定多久超时，单位毫秒。超时进fallback
+	                @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "3"),//判断熔断的最少请求数，默认是10；只有在一个统计窗口内处理的请求数量达到这个阈值，才会进行熔断与否的判断
+	                @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),//判断熔断的阈值，默认值50，表示在一个统计窗口内有50%的请求处理失败，会触发熔断
+	        }
+	)
 	public boolean checkDubbo(Long id) {
 		try{
 			return echoDubbo.checkEchoIsExistByDubbo(id);
@@ -94,6 +104,11 @@ public class EchoServiceImpl{
 			echoProcesser.submit();
 			return false;
 		}
+	}
+	
+	public boolean checkDubboFallback(Long id) {
+		LOGGER.warn("checkDubbo被熔断，默认返回TRUE");
+		return true;
 	}
 
 }

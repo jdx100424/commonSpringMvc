@@ -206,6 +206,17 @@ public class EchoController extends BaseController {
 		return new ResponseResultDto<Map<String, Object>>(resultMap);
 	}
 	
+	@RequestMapping(value = "checkHystrix", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> checkHystrix(HttpServletRequest request, Model model, String src) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean resultSelectDubbo = echoServiceImpl.checkDubbo(2L);
+		Map<String, Object> dataResult = new HashMap<String, Object>();
+		dataResult.put("3", resultSelectDubbo);
+		resultMap.put("checkHystrix", dataResult);
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
+	
 	@RequestMapping(value = "checkZipkin", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
 	public ResponseResultDto<Map<String, Object>> checkZipkin(HttpServletRequest request, Model model, String src) throws Exception {
