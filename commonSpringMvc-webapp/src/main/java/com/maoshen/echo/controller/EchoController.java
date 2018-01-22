@@ -210,10 +210,14 @@ public class EchoController extends BaseController {
 	@ResponseBody
 	public ResponseResultDto<Map<String, Object>> checkHystrix(HttpServletRequest request, Model model, String src) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		boolean resultSelectDubbo = echoServiceImpl.checkDubbo(2L);
-		Map<String, Object> dataResult = new HashMap<String, Object>();
-		dataResult.put("3", resultSelectDubbo);
-		resultMap.put("checkHystrix", dataResult);
+		try{
+			boolean resultSelectDubbo = echoServiceImpl.checkDubbo(2L);
+			Map<String, Object> dataResult = new HashMap<String, Object>();
+			dataResult.put("3", resultSelectDubbo);
+			resultMap.put("checkHystrix", dataResult);
+		}catch(Exception e){
+			resultMap.put("error", "error");
+		}
 		return new ResponseResultDto<Map<String, Object>>(resultMap);
 	}
 	
