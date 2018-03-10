@@ -31,7 +31,7 @@ import com.maoshen.echo.service.impl.EchoServiceImpl;
 @Controller
 @RequestMapping("/version")
 public class VersionController extends BaseController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(VersionController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VersionController.class);    
 
 	@Autowired
 	@Qualifier("echoServiceImpl")
