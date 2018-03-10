@@ -35,6 +35,7 @@ import com.maoshen.component.kafka.dto.MessageDto;
 import com.maoshen.component.kafka.dto.MessageVo;
 import com.maoshen.component.rest.UserRestContext;
 import com.maoshen.component.sentry.SentryProvider;
+import com.maoshen.echo.disconf.JdxDisconf;
 import com.maoshen.echo.domain.CheckRouteDb;
 import com.maoshen.echo.domain.Echo;
 import com.maoshen.echo.service.dto.RouteDto;
@@ -82,6 +83,23 @@ public class EchoController extends BaseController {
 	
 	@Autowired
 	private SentryDisconf sentryDisconf;
+	
+	@Autowired
+	private JdxDisconf jdxDisconf;
+	
+	@RequestMapping(value = "jdxDisconfTest", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseResultDto<Map<String, Object>> jdxDisconfTest(HttpServletRequest request, Model model, String src) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			jdxDisconf.getJdxName();
+			resultMap.put("result", jdxDisconf.getJdxName());
+		} catch (Exception e) {
+			LOGGER.error("echo insert error:", e);
+			resultMap.put("result", e.getMessage());
+		}
+		return new ResponseResultDto<Map<String, Object>>(resultMap);
+	}
 	
 	@RequestMapping(value = "insertSameEchoId", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody

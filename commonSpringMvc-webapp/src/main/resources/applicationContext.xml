@@ -23,7 +23,7 @@
 	
 	<bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean"
 	      destroy-method="destroy">
-	    <property name="scanPackage" value="com.maoshen.component.disconf"/>
+	    <property name="scanPackage" value="com.maoshen.component.disconf,com.maoshen.echo.disconf"/>
 	</bean>
 	<bean id="disconfMgrBean2" class="com.baidu.disconf.client.DisconfMgrBeanSecond"
 	      init-method="init" destroy-method="destroy">
