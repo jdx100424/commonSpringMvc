@@ -12,7 +12,7 @@ import com.maoshen.component.disconf.Log4jDisconf;
 import com.maoshen.version.controller.VersionController;
 
 @Configuration
-@DisconfFile(filename = "jdx.properties")
+@DisconfFile(filename = "jdx.properties") 
 @DisconfUpdateService(classes = { JdxDisconf.class })
 public class JdxDisconf implements IDisconfUpdate {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JdxDisconf.class);
