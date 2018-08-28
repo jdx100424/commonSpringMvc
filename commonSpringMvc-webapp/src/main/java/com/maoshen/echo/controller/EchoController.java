@@ -94,6 +94,13 @@ public class EchoController extends BaseController {
 		try {
 			jdxDisconf.getJdxName();
 			resultMap.put("result", jdxDisconf.getJdxName());
+			Map<String,Object> logLevelMap = new HashMap<String,Object>();
+			logLevelMap.put("debug", LOGGER.isDebugEnabled());
+			logLevelMap.put("info", LOGGER.isInfoEnabled());
+			logLevelMap.put("warn", LOGGER.isWarnEnabled());
+			logLevelMap.put("error", LOGGER.isErrorEnabled());
+			logLevelMap.put("trace", LOGGER.isTraceEnabled());
+			resultMap.put("logLevel",logLevelMap);
 		} catch (Exception e) {
 			LOGGER.error("echo insert error:", e);
 			resultMap.put("result", e.getMessage());
